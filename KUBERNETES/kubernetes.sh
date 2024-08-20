@@ -16,7 +16,7 @@ clear
 echo "INSTALLING DOCKER"
 echo "Running: ./docker.sh"
 # Uncomment the next line to run the docker.sh script
-# ./docker.sh
+#./docker.sh
 sleep 2
 
 # Clear the terminal screen
@@ -88,9 +88,11 @@ sleep 2
 clear
 
 # Get the IP address and configure the Pod network
-IP_ADDRESS=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' | cut -d'/' -f1)
+IP_ADDRESS=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1')
+ENDPOINT=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1' | cut -d'/' -f1)
 echo "CONFIGURING POD NETWORK WITH IP: $IP_ADDRESS"
-sudo kubeadm init --pod-network-cidr=$IP_ADDRESS --cri-socket=unix:///var/run/cri-dockerd.sock
+sudo kubeadm init --control-plane-endpoint $ENDPOINT:6443 --pod-network-cidr=$IP_ADDRESS --cri-socket=unix:///var/run/cri-dockerd.sock --v=5  --ignore-preflight-errors=all
+
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
