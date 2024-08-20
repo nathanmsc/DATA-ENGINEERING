@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Clear the terminal screen
 clear
 
@@ -52,6 +50,7 @@ sleep 2
 
 # Add the current user to the docker group
 echo "ADDING USER TO DOCKER GROUP"
+groups ${USER}
 sudo usermod -aG docker ${USER}
 if [ $? -eq 0 ]; then
     echo "User added to the docker group. Please log out and back in to apply the changes."
@@ -59,6 +58,8 @@ else
     echo "Failed to add user to docker group." >&2
     exit 1
 fi
+newgrp docker
+sudo systemctl restart docker
 sleep 2
 
 # Final message
