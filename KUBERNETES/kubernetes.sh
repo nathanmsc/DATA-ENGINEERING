@@ -16,7 +16,7 @@ clear
 echo "INSTALLING DOCKER"
 echo "Running: ./docker.sh"
 # Uncomment the next line to run the docker.sh script
-#./docker.sh
+./docker.sh
 sleep 2
 
 # Clear the terminal screen
@@ -32,7 +32,7 @@ clear
 
 # Install Go language
 echo "INSTALLING GO LANGUAGE"
-sudo apt install golang-go -y
+./go
 sleep 2
 
 # Clear the terminal screen
@@ -78,6 +78,7 @@ clear
 
 # Install Kubernetes components
 echo "INSTALLING KUBEADM AND KUBECTL"
+sudo swapoff -a
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
