@@ -1,7 +1,9 @@
 # KUBERNETES
 
 REQUIRE
-```
-sudo swapoff -a
 
+```
+#disable swap
+#install docker
+#insatall go 
 ```
