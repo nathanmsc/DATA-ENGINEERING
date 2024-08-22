@@ -116,5 +116,5 @@ clear
 echo "VALIDATING KUBERNETES INSTALLATION"
 kubectl get pods -A
 echo "To join a node, use the following command:"
-echo "kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \\
+echo "kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
         --discovery-token-ca-cert-hash sha256:<HASH> --cri-socket=unix:///var/run/cri-dockerd.sock"
