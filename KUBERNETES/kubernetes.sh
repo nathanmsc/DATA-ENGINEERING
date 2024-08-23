@@ -15,6 +15,8 @@ clear
 # Install Docker (assuming docker.sh is a script for installation)
 echo "INSTALLING DOCKER"
 echo "Running: ./docker.sh"
+curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/docker.sh
+sudo chmod +x docker.sh
 # Uncomment the next line to run the docker.sh script
 ./docker.sh
 sleep 2
@@ -32,6 +34,9 @@ clear
 
 # Install Go language
 echo "INSTALLING GO LANGUAGE"
+echo "Running: ./go.sh"
+curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/go.sh
+sudo chmod +x go.sh
 ./go
 sleep 2
 
