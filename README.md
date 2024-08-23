@@ -2,7 +2,7 @@
 ### DATA ENGINEERING TOOLS AND INFRAESTRUCTURE
 
 
-CONFIGURATION
+GIT CONFIGURATION
 ```
 ssh-keygen -t rsa -b 4096 -C "name@dominio.com"
 eval "$(ssh-agent -s)"
