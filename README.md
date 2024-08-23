@@ -3,7 +3,7 @@
 
 Brief description of your project, what it does, and any other relevant details.
 
-## Table of Contents
+## Guide
 
 - [Installation](#installation)
 - [Usage](#usage)
