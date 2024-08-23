@@ -2,8 +2,6 @@
 
 # Kubernetes and Docker Setup Script
 
-This script automates the installation and configuration of Docker, CRI-Docker, Kubernetes, and other necessary tools on a Linux system.
-
 REQUIRE
 
 ```
@@ -12,13 +10,18 @@ REQUIRE
 #insatall go 
 ```
 
-## Steps
+This script automates the installation and configuration of Docker, CRI-Docker, Kubernetes, and other necessary tools on a Linux system.
 
-### Updating System Packages
+[INSTALL KUBERNETES](https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh)
+```bash
 
-Update system packages to ensure everything is up to date.
+echo "INSTALLING KUBERNETES, DOCKER AND GOLANG"
+echo "Running: ./kubernetes.sh"
+# Uncomment the next line to run the docker.sh script
+# ./kubernetes.sh
+```
 
-[INSTALL DOCKER CONTAINER ENGINE](https://github.com/nathanmsc/DATA-ENGINEERING/edit/main/KUBERNETES/README.md)
+[INSTALL DOCKER CONTAINER ENGINE](https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/docker.sh)
 ```bash
 
 echo "INSTALLING DOCKER"
@@ -27,7 +30,7 @@ echo "Running: ./docker.sh"
 # ./docker.sh
 ```
 
-[INSTALL GOLANG](https://github.com/nathanmsc/DATA-ENGINEERING/edit/main/KUBERNETES/README.md)
+[INSTALL GOLANG](https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/go.sh)
 
  ```bash
 
