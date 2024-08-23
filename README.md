@@ -15,12 +15,6 @@ Brief description of your project, what it does, and any other relevant details.
 
 Instructions on how to install and set up your project.
 
-```bash
-# Example command
-git clone https://github.com/username/repository.git
-cd repository
-
-
 GIT CONFIGURATION
 ```
 ssh-keygen -t rsa -b 4096 -C "name@dominio.com"
