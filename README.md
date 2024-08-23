@@ -1,7 +1,7 @@
 # DATA-ENGINEERING
 ### DATA ENGINEERING TOOLS AND INFRAESTRUCTURE
 
-Brief description of your project, what it does, and any other relevant details.
+By leveraging Kubernetes and containerization, organizations can build a resilient, scalable, and secure infrastructure for data engineering. This setup not only enhances the efficiency of data processing and analysis but also ensures that the infrastructure can adapt to evolving data challenges, providing a robust foundation for data-driven decision-making.
 
 ## Guide
 
@@ -9,7 +9,6 @@ Brief description of your project, what it does, and any other relevant details.
 - [Docker](https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/DOCKER/README.md)
 - [Contributing](#contributing)
 - [License](#license)
-- [External Resources](#external-resources)
 
 ## Installation
 
@@ -60,18 +59,16 @@ reference: https://dockerlabs.collabnix.com/beginners/macvlan-010.html
 
 WSL
 
-### Adicione as seguintes linhas no seu arquivo /etc/sudoers ou  visudo:
+### Add the following lines to your /etc/sudoers file or visudo:
 ```sh
 username ALL=NOPASSWD: /usr/sbin/service ssh start
 username ALL=NOPASSWD: /usr/sbin/service docker start
 
 ```
-### No seu arquivo do ~/.bashrc inclua o seguinte:
+### On profile file ~/.bashrc add the following:
 
 ```sh
 vim ~/.bashrc
-```
-```sh
 sudo service ssh start
 sudo service docker start
 ```
