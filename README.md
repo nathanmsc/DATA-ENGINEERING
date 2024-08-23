@@ -10,7 +10,7 @@ By leveraging Kubernetes and containerization, organizations can build a resilie
 - [Contributing](#contributing)
 - [License](#license)
 
-## Installation
+### Utils Commands
 
 Instructions on how to install and set up your project.
 
