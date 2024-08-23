@@ -14,7 +14,7 @@ By leveraging Kubernetes and containerization, organizations can build a resilie
 
 Instructions on how to install and set up your project.
 
-GIT CONFIGURATION
+Git setup
 ```
 ssh-keygen -t rsa -b 4096 -C "name@dominio.com"
 eval "$(ssh-agent -s)"
@@ -57,7 +57,7 @@ docker network create --driver=bridge --subnet=192.168.32.0/16 --ip-range=192.16
 ```
 reference: https://dockerlabs.collabnix.com/beginners/macvlan-010.html
 
-WSL
+Running Docker on WSL
 
 ### Add the following lines to your /etc/sudoers file or visudo:
 ```sh
