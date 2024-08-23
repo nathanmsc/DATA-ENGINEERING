@@ -5,8 +5,8 @@ Brief description of your project, what it does, and any other relevant details.
 
 ## Guide
 
-- [Kubernetes](https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/KUBERNETES/kubernetes.sh)
-- [Usage](#usage)
+- [Kubernetes](https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/KUBERNETES/README.md)
+- [Docker](https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/DOCKER/README.md)
 - [Contributing](#contributing)
 - [License](#license)
 - [External Resources](#external-resources)
