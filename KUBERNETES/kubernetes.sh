@@ -17,7 +17,6 @@ echo "INSTALLING DOCKER"
 echo "Running: ./docker.sh"
 curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/docker.sh
 sudo chmod +x docker.sh
-# Uncomment the next line to run the docker.sh script
 ./docker.sh
 sleep 2
 
