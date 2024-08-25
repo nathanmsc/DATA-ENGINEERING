@@ -59,6 +59,11 @@ reference: https://dockerlabs.collabnix.com/beginners/macvlan-010.html
 
 Running Docker on WSL
 
+```bash
+wsl --list --verbose
+wsl --unregister <DistributionName>
+```
+
 ### Add the following lines to your /etc/sudoers file or visudo:
 ```sh
 username ALL=NOPASSWD: /usr/sbin/service ssh start
