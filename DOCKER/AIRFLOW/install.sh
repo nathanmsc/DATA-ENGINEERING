@@ -1,50 +1,61 @@
 #!/bin/bash
 
-# Airflow needs a home. `~/airflow` is the default, but you can put it
-# somewhere else if you prefer (optional)
-export AIRFLOW_HOME=~/airflow
+# Set environment variables
+export AIRFLOW_HOME=/home/airflow/airflow
 export PATH=$PATH:/home/airflow/.local/bin
 export TZ=America/Region
+export AIRFLOW_VERSION=2.10.0
+export USERNAME=airflow
+
+# Create and set up the working directory
+mkdir -p $AIRFLOW_HOME
+cd $AIRFLOW_HOME
+
+# Install system dependencies
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends \
+    libpq-dev \
+    libpq5 \
+    sudo \
+    curl \
+    postgresql-client
+sudo apt-get clean
+sudo rm -rf /var/lib/apt/lists/*
+
+# Create a default user and add to the sudo group
+sudo adduser --disabled-password --gecos "" $USERNAME
+sudo usermod -aG sudo $USERNAME
+sudo chown -R $USERNAME:$USERNAME /home/airflow
+echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers
+
+# Switch to the new user (in the context of this script)
+sudo su - $USERNAME << EOF
 
 # Install Airflow using the constraints file
-AIRFLOW_VERSION=2.5.1
-PYTHON_VERSION="$(python3 --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
-# For example: 3.7
-CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
-# For example: https://raw.githubusercontent.com/apache/airflow/constraints-2.5.1/constraints-3.7.txt
-pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
+PYTHON_VERSION="\$(python3 --version | cut -d ' ' -f 2 | cut -d '.' -f 1-2)"
+CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-\${AIRFLOW_VERSION}/constraints-\${PYTHON_VERSION}.txt"
+pip install "apache-airflow==\${AIRFLOW_VERSION}" --constraint "\${CONSTRAINT_URL}"
 
+# Install additional libraries for PostgreSQL
+pip install psycopg2-binary apache-airflow-providers-common-sql apache-airflow-providers-postgres
 
+# Download the airflow.cfg file if you have custom settings
+curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/DOCKER/AIRFLOW/airflow.cfg
 
-#install library postgres to connect on sqlalchemy
-pip install psycopg2-binary
-pip install apache-airflow-providers-common-sql
-pip install psycopg2
-pip install apache-airflow-providers-postgres
-apt install libpq-dev
-apt install libpq5
-
-#edit file airflow.cfg
-sql_alchemy_conn = postgresql://airflow:airflow@localhost/airflow
-
-#create database and database user
-psql -U postgres
-postgres=# CREATE USER airflow PASSWORD 'airflow';
-postgres=# CREATE DATABASE airflow;
-postgres=# GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO airflow;
-
-#init database
+# Initialize the Airflow database
 airflow db init
 
-#
-# The Standalone command will initialise the database, make a user,
-# and start all components for you.
-airflow standalone
+# Create an Airflow user
+airflow users create \
+    --username user \
+    --password "user" \
+    --firstname user \
+    --lastname IT \
+    --role Admin \
+    --email nathan@mindsetcloud.net
 
-airflow users create --username user --password ********* --firstname user --lastname IT --role Admin --email user@domain
+# Start the Airflow webserver and scheduler
+airflow webserver --port 8080 &
+airflow scheduler
 
-docker run -it -d --name airflow-server --hostname airflow-server --user airflow --restart=always --net mindsetcloud-nt --ip 192.168.32.4 -v ~/bigdata/data/airflow:/mnt/sources -p 8282:8282 -e AIRFLOW_HOME=/home/airflow/airflow -e TZ=America/Bahia mindsetcloud/airflow-postgres:arm64
-
-# Visit localhost:8080 in the browser and use the admin account details
-# shown on the terminal to login.
-# Enable the example_bash_operator dag in the home page
+EOF
