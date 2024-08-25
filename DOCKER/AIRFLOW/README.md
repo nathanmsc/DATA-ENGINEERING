@@ -1,17 +1,6 @@
 # AIRFLOW
 ## _Airflow_
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://nodesource.com/products/nsolid)
-
-### install on ubuntu:
-[ _shell_ ](https://github.com/mindsetcloud/infra-data-engineer/blob/main/docker/airflow/install.sh) - shell
-
-### install within docker compose:
-[ _docker-compose_ ](https://github.com/mindsetcloud/infra-data-engineer/blob/main/docker/airflow/airflow.yml) - docker-compose
-
-### _install within dockerfile:_
-[ _dockerfile_ ](https://github.com/mindsetcloud/infra-data-engineer/blob/main/docker/airflow/Dockerfile) - dockerfile
-
 # Project Overview
 
 This project involves setting up and configuring Apache Airflow, a platform to programmatically author, schedule, and monitor workflows. Below, you'll find descriptions of the various files used in this project, along with links to the corresponding scripts.
