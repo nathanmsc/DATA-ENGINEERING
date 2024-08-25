@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: airflow-server
+  labels:
+    app: airflow
+spec:
+  containers:
+  - name: airflow-server
+    image: mindsetcloud/airflow
+    ports:
+    - containerPort: 8282
+    env:
+    - name: AIRFLOW_HOME
+      value: "/home/airflow/airflow"
+    - name: TZ
+      value: "America/Bahia"
+    securityContext:
+      runAsUser: 1000 # Assuming the user ID for 'airflow' is 1000
+  restartPolicy: Always
