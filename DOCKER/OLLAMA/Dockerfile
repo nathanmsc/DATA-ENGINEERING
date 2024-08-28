@@ -25,4 +25,4 @@ USER $USERNAME
 EXPOSE 11434
 
 # Start the Ollama service by default when the container runs
-CMD ["/bin/bash"]
+CMD ["ollama", "run", "llama3.1:8b"]
