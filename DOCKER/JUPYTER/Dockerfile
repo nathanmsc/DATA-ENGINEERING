@@ -1,4 +1,5 @@
 # Use an Python base image
+
 FROM python:3.10-slim-buster
 
 # Set environment variables
@@ -10,9 +11,9 @@ RUN apt-get update && \
     apt-get install -y sudo curl systemd
 
 # Create user and configure sudo only if the user doesn't exist
-RUN adduser --disabled-password --gecos "" $USERNAME && \
+RUN adduser --disabled-password --gecos "" jupyter && \
     usermod -aG sudo $USERNAME && \
-    mkdir /home/jupyter && \
+    mkdir -p /home/jupyter && \
     chown -R $USERNAME:$USERNAME /home/jupyter && \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers
 
