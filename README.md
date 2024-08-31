@@ -91,6 +91,12 @@ wsl --list --online
 wsl --install <DistributionName>
 ```
 
+```bash
+netsh interface ipv4 set address name="Ethernet" static 192.168.1.10 255.255.255.0 192.168.1.1
+netsh interface ipv4 set dnsservers name="Ethernet" static 8.8.8.8 primary
+netsh interface ipv4 add dnsservers name="Ethernet" 8.8.4.4 index=2
+```
+
 ### Add the following lines to your /etc/sudoers file or visudo:
 ```sh
 username ALL=NOPASSWD: /usr/sbin/service ssh start
