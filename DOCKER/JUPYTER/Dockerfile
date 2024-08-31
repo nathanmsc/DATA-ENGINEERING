@@ -10,7 +10,7 @@ RUN apt-get update && \
     apt-get install -y sudo curl systemd
 
 # Create user and configure sudo only if the user doesn't exist
-RUN id -u $USERNAME &>/dev/null || adduser --disabled-password --gecos "" $USERNAME && \
+RUN adduser --disabled-password --gecos "" $USERNAME && \
     usermod -aG sudo $USERNAME && \
     mkdir /home/jupyter && \
     chown -R $USERNAME:$USERNAME /home/jupyter && \
