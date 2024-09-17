@@ -1,5 +1,6 @@
 # Clear the terminal screen
 sudo apt update
+
 sudo apt upgrade -y
 # Final message
 clear
