@@ -51,3 +51,4 @@ sudo docker run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE
 
 https://docs.openwebui.com/getting-started/
 https://hub.asimov.academy/tutorial/rodando-modelos-de-linguagem-natural-localmente-com-ollama/
+https://python.langchain.com/docs/integrations/llms/ollama/
