@@ -19,3 +19,7 @@ To check if Python is installed, open a terminal or command prompt and run:
 
 ```bash
 python --version
+
+```sh
+docker run --user jupyter -it -d --name jupyter-server --hostname jupyter-server --restart=always -p 8888:8888 msc/jupyter
+```
