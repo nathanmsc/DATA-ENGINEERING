@@ -2,7 +2,7 @@ FROM python:3.10-slim-buster
 RUN apt update && apt upgrade -y
 RUN apt install -y python3-venv sudo whois vim
 RUN mkdir /home/jupyter
-ARG password=.jupyter.
+ARG password=<password>
 RUN secret=$(perl -e 'print crypt($ARGV[0], "password")' $password) && useradd jupyter -p $secret
 RUN cp -r /etc/skel/. /home/jupyter
 RUN usermod -aG sudo jupyter
