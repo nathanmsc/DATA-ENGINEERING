@@ -4,8 +4,8 @@ RUN apt install curl sudo default-jdk build-essential -y
 COPY password /tmp/password
 RUN mkdir /home/jupyter
 RUN secret=$(perl -e 'print crypt($ARGV[0], "password")' $(cat /tmp/password)) && useradd jupyter -p $secret
-RUN rm -rf /tmp/password
 RUN cp -r /etc/skel/. /home/jupyter
+RUN rm -rf /tmp/password
 RUN usermod -aG sudo jupyter
 RUN chmod -R 0755 /home/jupyter
 RUN chown -R jupyter:jupyter /home/jupyter
