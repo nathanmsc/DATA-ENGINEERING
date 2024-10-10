@@ -10,11 +10,11 @@ docker run -it -d --name ollama-server --hostname ollama-server --restart=always
 ```
 ### Download llm model
 ```sh
-ollama pull llama3.1:8b 
+ollama pull llama3.2:1b 
 ```
 ### Run model
 ```sh
-ollama run llama3.1:8b
+ollama run llama3.2:1b
 ```
 
 ### API
