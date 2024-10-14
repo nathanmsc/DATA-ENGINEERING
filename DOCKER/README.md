@@ -1,11 +1,13 @@
 # DOCKER
 ## _install docker on ubuntu_
 
-### _via script
+### _via script_
+
 ``` sh
-curl -fsSL docker.sh | sh
+curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/docker.sh | sh
 ```
 
+### _manual install
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://nodesource.com/products/nsolid)
 
 ``` sh
