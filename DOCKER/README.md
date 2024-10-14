@@ -7,7 +7,7 @@
 curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/docker.sh | sh
 ```
 
-### _manual install
+### _manual install_
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://nodesource.com/products/nsolid)
 
 ``` sh
