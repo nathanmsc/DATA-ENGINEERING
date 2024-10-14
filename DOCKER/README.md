@@ -61,7 +61,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo usermod -aG docker ${USER}
 ```
 
-### _docker composer install_
+## _docker composer install_
 
 ```sh
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
