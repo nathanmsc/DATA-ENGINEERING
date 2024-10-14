@@ -1,6 +1,11 @@
 # DOCKER
 ## _install docker on ubuntu_
 
+### _via script
+``` sh
+curl -fsSL docker.sh | sh
+```
+
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://nodesource.com/products/nsolid)
 
 ``` sh
