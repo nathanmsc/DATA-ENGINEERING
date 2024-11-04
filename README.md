@@ -85,6 +85,8 @@ reference: https://dockerlabs.collabnix.com/beginners/macvlan-010.html
 Running Docker on WSL
 
 ```bash
+wsl --install
+wsl --set-default-version 2
 wsl --list --verbose
 wsl --unregister <DistributionName>
 wsl --list --online
