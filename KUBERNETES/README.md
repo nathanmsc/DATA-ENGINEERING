@@ -29,7 +29,7 @@ sudo chmod +x kubernetes.sh
 ./kubernetes.sh
 ```
 Configuration multinode
-
+```sh
 # Get the IP address and configure the Pod network
 IP_ADDRESS=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1')
 ENDPOINT=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1' | cut -d'/' -f1)
@@ -60,6 +60,7 @@ kubectl get pods -A
 echo "To join a node, use the following command:"
 echo "kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
         --discovery-token-ca-cert-hash sha256:<HASH> --cri-socket=unix:///var/run/cri-dockerd.sock"
+```
 
 Masters
 ```sh
