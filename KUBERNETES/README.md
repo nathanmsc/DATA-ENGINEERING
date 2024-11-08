@@ -66,22 +66,20 @@ Masters
 ```sh
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
-kubernetesVersion: "v1.23.0" # Substitua pela versão desejada do Kubernetes
-controlPlaneEndpoint: "172.27.11.200:6443" # IP e porta do frontend configurado no HAProxy
+controlPlaneEndpoint: "172.27.11.200:6443" 
 networking:
-  podSubnet: "192.168.0.0/16" # Sub-rede para pods, ajuste conforme necessário
-  serviceSubnet: "10.96.0.0/12" # Sub-rede para serviços, ajuste conforme necessário
+  podSubnet: "192.168.0.0/16" 
+  serviceSubnet: "10.96.0.0/12" 
 
 ---
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
 localAPIEndpoint:
-  advertiseAddress: "172.27.11.200" # Endereço de anúncio, ajuste conforme necessário
-  bindPort: 6443 # Porta para bind
+  advertiseAddress: "172.27.11.200" 
+  bindPort: 6443 
 nodeRegistration:
-  criSocket: "/var/run/dockershim.sock" # ou o caminho para o CRI correto (como containerd)
-  name: "master-01" # Nome do nó, ajuste conforme necessário
-
+  criSocket: "unix:///var/run/cri-dockerd.sock" 
+  name: "mastername" # 
 ```
 
 This Markdown file provides a step-by-step guide to setting up Docker, CRI-Docker, Kubernetes, and related components on a Linux system. It includes references to external sources for additional context.
