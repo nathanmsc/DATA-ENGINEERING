@@ -17,6 +17,10 @@ This script automates the installation and configuration of Docker, CRI-Docker, 
 
 echo "INSTALLING KUBERNETES, DOCKER AND GOLANG"
 echo "Running: ./kubernetes.sh"
+curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh | sh
+```
+or
+```bash
 curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh
 sudo chmod +x kubernetes.sh
 ./kubernetes.sh
