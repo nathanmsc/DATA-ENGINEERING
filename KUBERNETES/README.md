@@ -13,14 +13,16 @@ REQUIRE
 This script automates the installation and configuration of Docker, CRI-Docker, Kubernetes, and other necessary tools on a Linux system.
 
 [INSTALL KUBERNETES](https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh)
-```bash
 
+```bash
 echo "INSTALLING KUBERNETES, DOCKER AND GOLANG"
-echo "Running: ./kubernetes.sh"
+```
+```bash
 curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh | sh
 ```
 or
 ```bash
+echo "Running: ./kubernetes.sh"
 curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh
 sudo chmod +x kubernetes.sh
 ./kubernetes.sh
