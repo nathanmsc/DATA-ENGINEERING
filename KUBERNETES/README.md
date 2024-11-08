@@ -34,8 +34,17 @@ Configuration multinode
 IP_ADDRESS=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1')
 ENDPOINT=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1' | cut -d'/' -f1)
 echo "CONFIGURING POD NETWORK WITH IP: $IP_ADDRESS"
-sudo kubeadm init --control-plane-endpoint $ENDPOINT:6443 --pod-network-cidr=$IP_ADDRESS --cri-socket=unix:///var/run/cri-dockerd.sock --v=5  --ignore-preflight-errors=all
+sudo kubeadm init --control-plane-endpoint $ENDPOINT:6443 --pod-network-cidr=$IP_ADDRESS --cri-socket=unix:///var/run/cri-dockerd.sock --upload-certs --v=5  --ignore-preflight-errors=all
+```
 
+or
+
+```sh
+kubeadm init --config '~/kubeadm-config.yml' --upload-certs
+
+```
+
+```sh
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -63,6 +72,7 @@ echo "kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
 ```
 
 Masters
+
 ```sh
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
@@ -78,7 +88,9 @@ localAPIEndpoint:
   advertiseAddress: "172.27.11.200" 
   bindPort: 6443 
 nodeRegistration:
-  criSocket: "unix:///var/run/cri-dockerd.sock" 
+  criSocket: "unix:///var/run/cri-dockerd.sock"
+  ignorePreflightErrors:
+    - "all"
   name: "mastername" # 
 ```
 
