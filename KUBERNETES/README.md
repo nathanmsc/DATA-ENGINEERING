@@ -31,10 +31,11 @@ sudo chmod +x kubernetes.sh
 Configuration multinode
 ```sh
 # Get the IP address and configure the Pod network
-IP_ADDRESS=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1')
+POD_NETWORK=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1')
 ENDPOINT=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1' | cut -d'/' -f1)
-echo "CONFIGURING POD NETWORK WITH IP: $IP_ADDRESS"
-sudo kubeadm init --control-plane-endpoint $ENDPOINT:6443 --pod-network-cidr=$IP_ADDRESS --cri-socket=unix:///var/run/cri-dockerd.sock --upload-certs --v=5  --ignore-preflight-errors=all
+echo "CONFIGURING POD NETWORK WITH IP: $POD_NETWORK"
+echo "CONFIGURING POD NETWORK WITH IP: $ENDPOINT"
+sudo kubeadm init --control-plane-endpoint $ENDPOINT:6443 --pod-network-cidr=$POD_NETWORK --cri-socket=unix:///var/run/cri-dockerd.sock --upload-certs --v=5  --ignore-preflight-errors=all
 ```
 
 or
