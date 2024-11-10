@@ -78,7 +78,7 @@ clear
 
 # Install Kubernetes components
 echo "INSTALLING KUBEADM AND KUBECTL"
-sudo swapoff -a
+sudo swapoff -a; sed -i '/swap/d' /etc/fstab
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
