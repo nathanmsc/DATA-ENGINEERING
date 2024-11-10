@@ -76,9 +76,15 @@ sleep 2
 # Clear the terminal screen
 clear
 
+
 # Install Kubernetes components
 echo "INSTALLING KUBEADM AND KUBECTL"
 sudo swapoff -a; sed -i '/swap/d' /etc/fstab
+cat >> /etc/sysctl.d/kubernetes.conf<<EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysclt --system
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
