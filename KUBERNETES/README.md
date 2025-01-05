@@ -95,5 +95,17 @@ nodeRegistration:
   name: "mastername" # 
 ```
 
+### WINDOWS
+
+```sh
+winget install Kubernetes.kubectl
+kubectl version --client
+scp user@150.55.133.10:/etc/kubernetes/admin.conf C:\Users\<SeuUsuario>\kubeconfig-150.55.133.10
+set KUBECONFIG=C:\Users\User\kubeconfig-150.55.133.10
+set KUBECONFIG=C:\Users\<SeuUsuario>\kubeconfig-150.55.133.10;C:\Users\<SeuUsuario>\kubeconfig-150.55.133.20;C:\Users\<SeuUsuario>\kubeconfig-150.55.133.30
+kubectl config view --merge --flatten > C:\Users\<SeuUsuario>\.kube\config
+```
+
+
 This Markdown file provides a step-by-step guide to setting up Docker, CRI-Docker, Kubernetes, and related components on a Linux system. It includes references to external sources for additional context.
 #### Reference: [David Hwang](https://www.youtube.com/watch?v=o6bxo0Oeg6o)
