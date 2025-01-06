@@ -108,6 +108,9 @@ kubectl config view --merge --flatten > C:\Users\<SeuUsuario>\.kube\config
 
 
 This Markdown file provides a step-by-step guide to setting up Docker, CRI-Docker, Kubernetes, and related components on a Linux system. It includes references to external sources for additional context.
-#### Reference: [David Hwang](https://www.youtube.com/watch?v=o6bxo0Oeg6o)
-[multi](https://www.youtube.com/watch?v=SueeqeioyKY&t=805s)
-[git multi](https://github.com/justmeandopensource/kubernetes/tree/master/kubeadm-ha-keepalived-haproxy/external-keepalived-haproxy)
+#### Reference: 
+#### [David Hwang](https://www.youtube.com/watch?v=o6bxo0Oeg6o)
+#### [Multi master](https://www.youtube.com/watch?v=SueeqeioyKY&t=805s)
+#### [Multi master](https://github.com/justmeandopensource/kubernetes/tree/master/kubeadm-ha-keepalived-haproxy/external-keepalived-haproxy)
+#### [Multi master](https://www.youtube.com/watch?v=6Gwg80eEuQk&t=1923s)
+
