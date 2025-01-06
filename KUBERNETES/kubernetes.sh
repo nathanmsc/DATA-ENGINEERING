@@ -38,11 +38,20 @@ sleep 2
 # Clear the terminal screen
 clear
 
+
+
 # Install CRI-Docker
 echo "INSTALLING CRI-DOCKER"
 echo "Reference: https://github.com/Mirantis/cri-dockerd"
-git clone https://github.com/Mirantis/cri-dockerd.git
-sudo mv cri-dockerd /opt
+if git clone https://github.com/Mirantis/cri-dockerd.git && \
+  sudo mv cri-dockerd /opt; then
+  echo "GET FROM GIT"
+elif curl -O https://codeload.github.com/Mirantis/cri-dockerd/zip/refs/heads/master && \
+  sudo apt install unzip
+  unzip master
+  mv cri-dockerd-master/ /opt/cri-dockerd; then
+  echo "GET FROM CURL"
+    
 sudo chown -R ${USER}:${USER} /opt/cri-dockerd
 sudo mkdir /opt/cri-dockerd/bin
 cd /opt/cri-dockerd && sudo go build -o bin/cri-dockerd
