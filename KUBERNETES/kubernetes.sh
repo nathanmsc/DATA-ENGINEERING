@@ -44,13 +44,14 @@ clear
 echo "INSTALLING CRI-DOCKER"
 echo "Reference: https://github.com/Mirantis/cri-dockerd"
 if git clone https://github.com/Mirantis/cri-dockerd.git && \
-  sudo mv cri-dockerd /opt; then
-  echo "GET FROM GIT"
+  sudo mv cri-dockerd /opt && \
+  echo "GET FROM GIT"; then
 elif curl -O https://codeload.github.com/Mirantis/cri-dockerd/zip/refs/heads/master && \
-  sudo apt install unzip
-  unzip master
-  mv cri-dockerd-master/ /opt/cri-dockerd; then
-  echo "GET FROM CURL"
+  sudo apt install unzip && \
+  unzip master && \
+  mv cri-dockerd-master/ /opt/cri-dockerd && \
+  echo "GET FROM CURL"; then
+sleep 2  
     
 sudo chown -R ${USER}:${USER} /opt/cri-dockerd
 sudo mkdir /opt/cri-dockerd/bin
