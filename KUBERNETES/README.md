@@ -70,16 +70,6 @@ Configure anothers nodes with the following:
 ```bash
 #CONFIGURATION ON ANOTHER CONTROLPLANE
 export $ENDPOINT=<ip-node-master>
-sudo kubeadm join $ENDPOINT:6443 --apiserver-advertise-address 172.16.2.104 --token <TOKEN> \
-        --discovery-token-ca-cert-hash <HASH> \
-        --control-plane --certificate-key <CERTIFICATE> --cri-socket=unix:///var/run/cri-dockerd.sock --v=5  --ignore-preflight-errors=all
-```
-
-### Worker Node Setup
-
-After initializing the master node, join worker nodes using the generated `kubeadm join` command:
-
-```bash
 kubeadm join <CONTROL_PLANE_IP>:6443 \
   --apiserver-advertise-address=<ip-this-server> \
   --token <TOKEN> \
@@ -87,6 +77,16 @@ kubeadm join <CONTROL_PLANE_IP>:6443 \
   --cri-socket=unix:///var/run/cri-dockerd.sock \
   --v=5 \
   --ignore-preflight-errors=all
+```
+
+### Worker Node Setup
+
+After initializing the master node, join worker nodes using the generated `kubeadm join` command:
+
+```bash
+kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
+        --discovery-token-ca-cert-hash <HASH> --cri-socket=unix:///var/run/cri-dockerd.sock \
+        --v=5  --ignore-preflight-errors=all
 ```
 
 
