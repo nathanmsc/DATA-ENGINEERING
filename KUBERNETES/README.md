@@ -35,7 +35,7 @@ POD_NETWORK=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e
 ENDPOINT=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1' | cut -d'/' -f1)
 echo "CONFIGURING POD NETWORK WITH IP: $POD_NETWORK"
 echo "CONFIGURING POD NETWORK WITH IP: $ENDPOINT"
-sudo kubeadm init --control-plane-endpoint $ENDPOINT:6443 --pod-network-cidr=$POD_NETWORK --cri-socket=unix:///var/run/cri-dockerd.sock --upload-certs --v=5  --ignore-preflight-errors=all
+sudo kubeadm init --control-plane-endpoint $ENDPOINT:6443 --pod-network-cidr=$POD_NETWORK --apiserver-advertise-address <ip-this-server> --cri-socket=unix:///var/run/cri-dockerd.sock --upload-certs --v=5  --ignore-preflight-errors=all
 ```
 
 or
@@ -43,6 +43,28 @@ or
 ```sh
 kubeadm init --config '~/kubeadm-config.yml' --upload-certs
 
+```
+Masters configmap
+
+```yml
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+controlPlaneEndpoint: "172.27.11.200:6443" 
+networking:
+  podSubnet: "192.168.0.0/16" 
+  serviceSubnet: "10.96.0.0/12" 
+
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "172.27.11.200" 
+  bindPort: 6443 
+nodeRegistration:
+  criSocket: "unix:///var/run/cri-dockerd.sock"
+  ignorePreflightErrors:
+    - "all"
+  name: "mastername" # 
 ```
 
 ```sh
@@ -110,29 +132,6 @@ kubectl get pods -A
 echo "To join a node, use the following command:"
 echo "kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
         --discovery-token-ca-cert-hash sha256:<HASH> --cri-socket=unix:///var/run/cri-dockerd.sock"
-```
-
-Masters
-
-```yml
-apiVersion: kubeadm.k8s.io/v1beta3
-kind: ClusterConfiguration
-controlPlaneEndpoint: "172.27.11.200:6443" 
-networking:
-  podSubnet: "192.168.0.0/16" 
-  serviceSubnet: "10.96.0.0/12" 
-
----
-apiVersion: kubeadm.k8s.io/v1beta3
-kind: InitConfiguration
-localAPIEndpoint:
-  advertiseAddress: "172.27.11.200" 
-  bindPort: 6443 
-nodeRegistration:
-  criSocket: "unix:///var/run/cri-dockerd.sock"
-  ignorePreflightErrors:
-    - "all"
-  name: "mastername" # 
 ```
 
 ### WINDOWS
