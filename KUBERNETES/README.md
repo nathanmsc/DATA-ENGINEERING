@@ -60,7 +60,23 @@ echo "Reference: https://docs.tigera.io/calico/latest/getting-started/kubernetes
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/calico.yaml -O
 kubectl apply -f calico.yaml
 sleep 2
+```
+#
 
+```sh
+kubectl edit configmap -n kube-system kube-proxy
+```
+```yaml
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+mode: "ipvs"
+ipvs:
+  strictARP: true
+```
+### Download and apply
+```sh
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
+```
 # Clear the terminal screen
 clear
 
