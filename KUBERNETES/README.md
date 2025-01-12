@@ -52,12 +52,9 @@ sudo chmod +x kubernetes.sh
 Configure the master node with the following:
 
 ```bash
-POD_NETWORK=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1')
-ENDPOINT=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1' | cut -d'/' -f1)
-
-echo "CONFIGURING POD NETWORK WITH IP: $POD_NETWORK"
-echo "CONFIGURING POD NETWORK WITH IP: $ENDPOINT"
-
+#CONFIGURATION ON ONE MASTER
+export $ENDPOINT=<ip-node-master>
+export $POD_NETWORK=<ip-network\mask>
 sudo kubeadm init \
   --control-plane-endpoint $ENDPOINT:6443 \
   --pod-network-cidr=$POD_NETWORK \
@@ -66,7 +63,13 @@ sudo kubeadm init \
   --upload-certs \
   --v=5 \
   --ignore-preflight-errors=all
+```
 
+Configure anothers nodes with the following:
+
+```bash
+#CONFIGURATION ON ANOTHER CONTROLPLANE
+export $ENDPOINT=<ip-node-master>
 sudo kubeadm join $ENDPOINT:6443 --apiserver-advertise-address 172.16.2.104 --token <TOKEN> \
         --discovery-token-ca-cert-hash <HASH> \
         --control-plane --certificate-key <CERTIFICATE> --cri-socket=unix:///var/run/cri-dockerd.sock --v=5  --ignore-preflight-errors=all
@@ -85,6 +88,7 @@ kubeadm join <CONTROL_PLANE_IP>:6443 \
   --v=5 \
   --ignore-preflight-errors=all
 ```
+
 
 ---
 
