@@ -66,6 +66,10 @@ sudo kubeadm init \
   --upload-certs \
   --v=5 \
   --ignore-preflight-errors=all
+
+sudo kubeadm join $ENDPOINT:6443 --apiserver-advertise-address 172.16.2.104 --token <TOKEN> \
+        --discovery-token-ca-cert-hash <HASH> \
+        --control-plane --certificate-key <CERTIFICATE> --cri-socket=unix:///var/run/cri-dockerd.sock --v=5  --ignore-preflight-errors=all
 ```
 
 ### Worker Node Setup
