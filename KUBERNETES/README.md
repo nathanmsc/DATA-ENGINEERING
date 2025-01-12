@@ -1,93 +1,152 @@
-# KUBERNETES
 
-# Kubernetes and Docker Setup Script
+# Kubernetes and Docker Setup Guide
 
-REQUIRE
+This guide provides a step-by-step walkthrough for setting up Docker, CRI-Docker, Kubernetes, and related tools on a Linux system. It includes configurations for a single-node or multi-node Kubernetes cluster. 
 
-```
-#disable swap
-#install docker
-#insatall go 
-```
+---
 
-This script automates the installation and configuration of Docker, CRI-Docker, Kubernetes, and other necessary tools on a Linux system.
+## Prerequisites
 
-[INSTALL KUBERNETES](https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh)
+Before proceeding, ensure the following:
 
+1. **Disable Swap**:
+   ```bash
+   sudo swapoff -a
+   sudo sed -i '/swap/d' /etc/fstab
+   ```
+
+2. **Install Docker**:
+   Refer to the Docker installation instructions for your distribution.
+
+3. **Install Go**:
+   Install the latest version of Go as required by Kubernetes.
+
+---
+
+## Kubernetes Setup Script
+
+### Installation
+
+This script automates the installation of Kubernetes, Docker, and Golang.
+
+#### Direct Execution:
 ```bash
 echo "INSTALLING KUBERNETES, DOCKER AND GOLANG"
-```
-```bash
 curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh | sh
 ```
-or
 
+#### Manual Execution:
 ```bash
 echo "Running: ./kubernetes.sh"
 curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh
 sudo chmod +x kubernetes.sh
 ./kubernetes.sh
 ```
-Configuration multinode
-```sh
-# Get the IP address and configure the Pod network
+
+---
+
+## Multi-Node Configuration
+
+### Master Node Setup
+
+Configure the master node with the following:
+
+```bash
 POD_NETWORK=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1')
 ENDPOINT=$(ip addr show | grep 'inet' | awk '{print $2}' | grep -v -e '::' -e '127.0.0.1' -e '10.255.255.254' -e '172.17.0.1' | cut -d'/' -f1)
+
 echo "CONFIGURING POD NETWORK WITH IP: $POD_NETWORK"
 echo "CONFIGURING POD NETWORK WITH IP: $ENDPOINT"
-sudo kubeadm init --control-plane-endpoint $ENDPOINT:6443 --pod-network-cidr=$POD_NETWORK --apiserver-advertise-address <ip-this-server> --cri-socket=unix:///var/run/cri-dockerd.sock --upload-certs --v=5  --ignore-preflight-errors=all
+
+sudo kubeadm init \
+  --control-plane-endpoint $ENDPOINT:6443 \
+  --pod-network-cidr=$POD_NETWORK \
+  --apiserver-advertise-address=<ip-this-server> \
+  --cri-socket=unix:///var/run/cri-dockerd.sock \
+  --upload-certs \
+  --v=5 \
+  --ignore-preflight-errors=all
 ```
 
-or
+### Worker Node Setup
 
-```sh
+After initializing the master node, join worker nodes using the generated `kubeadm join` command:
+
+```bash
+kubeadm join <CONTROL_PLANE_IP>:6443 \
+  --apiserver-advertise-address=<ip-this-server> \
+  --token <TOKEN> \
+  --discovery-token-ca-cert-hash sha256:<HASH> \
+  --cri-socket=unix:///var/run/cri-dockerd.sock \
+  --v=5 \
+  --ignore-preflight-errors=all
+```
+
+---
+
+## Configuration Using YAML
+
+### Initialize with Config File
+
+```bash
 kubeadm init --config '~/kubeadm-config.yml' --upload-certs
-
 ```
-Masters configmap
 
-```yml
+### Sample `kubeadm-config.yml`
+
+```yaml
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
-controlPlaneEndpoint: "172.27.11.200:6443" 
+controlPlaneEndpoint: "172.27.11.200:6443"
 networking:
-  podSubnet: "192.168.0.0/16" 
-  serviceSubnet: "10.96.0.0/12" 
+  podSubnet: "192.168.0.0/16"
+  serviceSubnet: "10.96.0.0/12"
 
 ---
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
 localAPIEndpoint:
-  advertiseAddress: "172.27.11.200" 
-  bindPort: 6443 
+  advertiseAddress: "172.27.11.200"
+  bindPort: 6443
 nodeRegistration:
   criSocket: "unix:///var/run/cri-dockerd.sock"
   ignorePreflightErrors:
     - "all"
-  name: "mastername" # 
+  name: "mastername"
 ```
 
-```sh
+---
+
+## Post-Setup Configuration
+
+### Configure `kubectl`
+
+```bash
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 sleep 4
+```
 
-# Clear the terminal screen
-clear
+### Install and Configure Calico for Networking
 
-# Install and configure Calico for networking
+```bash
 echo "INSTALLING AND CONFIGURING CALICO"
-echo "Reference: https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises"
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/calico.yaml -O
 kubectl apply -f calico.yaml
 sleep 2
 ```
-### Set configmap
 
-```sh
+### Update Kube Proxy Configuration
+
+Edit the `kube-proxy` ConfigMap to enable `ipvs` mode:
+
+```bash
 kubectl edit configmap -n kube-system kube-proxy
 ```
+
+Modify the configuration:
+
 ```yaml
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 kind: KubeProxyConfiguration
@@ -95,61 +154,80 @@ mode: "ipvs"
 ipvs:
   strictARP: true
 ```
-### Metallb
-```sh
+
+---
+
+## Metallb Installation
+
+### Deploy Metallb
+
+```bash
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml -n metallb-system
 ```
-```yml
-apiVersion: metallb.io/v1beta1 
-kind: IPAddressPool 
-metadata: 
-  name: ip-address-pool 
-  namespace: metallb-system 
-spec: 
-  addresses: 
+
+### Metallb Configuration
+
+```yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: ip-address-pool
+  namespace: metallb-system
+spec:
+  addresses:
   - 172.16.2.170-172.16.2.189
 ---
-apiVersion: metallb.io/v1beta1 
-kind: L2Advertisement 
-metadata: 
-  name: l2-advertisement 
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-advertisement
   namespace: metallb-system
 spec:
   ipAddressPools:
   - ip-address-pool
 ```
-### Ngnix ingress
-```sh
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0/deploy/static/provider/baremetal/deploy.yaml 
 
-```
-# Clear the terminal screen
-clear
-```sh
-# Validate Kubernetes installation
-echo "VALIDATING KUBERNETES INSTALLATION"
-kubectl get pods -A
-echo "To join a node, use the following command:"
-echo "kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
-        --discovery-token-ca-cert-hash sha256:<HASH> --cri-socket=unix:///var/run/cri-dockerd.sock"
+---
+
+## Nginx Ingress Controller
+
+Deploy the Nginx Ingress Controller:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0/deploy/static/provider/baremetal/deploy.yaml
 ```
 
-### WINDOWS
+---
 
-```sh
+## Configuring `kubectl` on Windows
+
+### Install `kubectl`
+
+```bash
 winget install Kubernetes.kubectl
 kubectl version --client
-scp user@150.55.133.10:/etc/kubernetes/admin.conf C:\Users\<SeuUsuario>\kubeconfig-150.55.133.10
-set KUBECONFIG=C:\Users\User\kubeconfig-150.55.133.10
-set KUBECONFIG=C:\Users\<SeuUsuario>\kubeconfig-150.55.133.10;C:\Users\<SeuUsuario>\kubeconfig-150.55.133.20;C:\Users\<SeuUsuario>\kubeconfig-150.55.133.30
-kubectl config view --merge --flatten > C:\Users\<SeuUsuario>\.kube\config
 ```
 
+### Transfer Configuration File
 
-This Markdown file provides a step-by-step guide to setting up Docker, CRI-Docker, Kubernetes, and related components on a Linux system. It includes references to external sources for additional context.
-#### Reference: 
-#### [David Hwang](https://www.youtube.com/watch?v=o6bxo0Oeg6o)
-#### [Multi master](https://www.youtube.com/watch?v=SueeqeioyKY&t=805s)
-#### [Multi master](https://github.com/justmeandopensource/kubernetes/tree/master/kubeadm-ha-keepalived-haproxy/external-keepalived-haproxy)
-#### [Multi master](https://www.youtube.com/watch?v=6Gwg80eEuQk&t=1923s)
+```bash
+scp user@150.55.133.10:/etc/kubernetes/admin.conf C:\Users\<YourUsername>\kubeconfig-150.55.133.10
+```
 
+### Set KUBECONFIG Environment Variable
+
+```bash
+set KUBECONFIG=C:\Users\<YourUsername>\kubeconfig-150.55.133.10
+set KUBECONFIG=C:\Users\<YourUsername>\kubeconfig-150.55.133.10;C:\Users\<YourUsername>\kubeconfig-150.55.133.20;C:\Users\<YourUsername>\kubeconfig-150.55.133.30
+kubectl config view --merge --flatten > C:\Users\<YourUsername>\.kube\config
+```
+
+---
+
+## References
+
+- [David Hwang](https://www.youtube.com/watch?v=o6bxo0Oeg6o)
+- [Multi-Master Setup](https://www.youtube.com/watch?v=SueeqeioyKY&t=805s)
+- [Kubeadm HA](https://github.com/justmeandopensource/kubernetes/tree/master/kubeadm-ha-keepalived-haproxy/external-keepalived-haproxy)
+- [Ingress Nginx and Metallb](https://www.youtube.com/watch?v=cO8TEEashIk)
+- [Metallb Documentation](https://metallb.io/installation)
