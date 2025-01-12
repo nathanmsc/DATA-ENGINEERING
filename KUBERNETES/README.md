@@ -61,7 +61,7 @@ curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.1/manifests/ca
 kubectl apply -f calico.yaml
 sleep 2
 ```
-#
+### Set configmap
 
 ```sh
 kubectl edit configmap -n kube-system kube-proxy
@@ -75,11 +75,34 @@ ipvs:
 ```
 ### Download and apply
 ```sh
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0/deploy/static/provider/baremetal/deploy.yaml
+
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
 ```
+
+```yml
+apiVersion: metallb.io/v1beta1 
+kind: IPAddressPool 
+metadata: 
+  name: ip-address-pool 
+  namespace: metallb-system 
+spec: 
+  addresses: 
+  - 172.16.2.170-172.16.2.189
+---
+apiVersion: metallb.io/v1beta1 
+kind: L2Advertisement 
+metadata: 
+  name: l2-advertisement 
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - ip-address-pool
+```
+
 # Clear the terminal screen
 clear
-
+```sh
 # Validate Kubernetes installation
 echo "VALIDATING KUBERNETES INSTALLATION"
 kubectl get pods -A
@@ -90,7 +113,7 @@ echo "kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
 
 Masters
 
-```sh
+```yml
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
 controlPlaneEndpoint: "172.27.11.200:6443" 
