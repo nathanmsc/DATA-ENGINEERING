@@ -10,8 +10,6 @@ By leveraging Kubernetes and containerization, organizations can build a resilie
 
 - [Kubernetes](https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/KUBERNETES/README.md)
 - [Docker Containers](https://github.com/nathanmsc/DATA-ENGINEERING/tree/main/DOCKER)
-- [Airflow](https://github.com/nathanmsc/DATA-ENGINEERING/tree/main/DOCKER/AIRFLOW)
-- [Hadoop](https://github.com/nathanmsc/DATA-ENGINEERING/tree/main/DOCKER/HADOOP)
 - [Useful Commands](#useful-commands)
 - [Network Configuration](#network-configuration)
 - [Running Docker on WSL](#running-docker-on-wsl)
