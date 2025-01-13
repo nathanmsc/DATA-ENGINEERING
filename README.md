@@ -13,9 +13,6 @@ By leveraging Kubernetes and containerization, organizations can build a resilie
 
 # MindsetCloud: Transforming Data into Powerful Insights 🌐
 
----
-
-
 </div>
 
 ---
