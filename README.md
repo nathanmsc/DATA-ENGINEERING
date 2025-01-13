@@ -1,10 +1,3 @@
-# DATA ENGINEERING
-
-### DATA ENGINEERING TOOLS AND INFRASTRUCTURE
-
-By leveraging Kubernetes and containerization, organizations can build a resilient, scalable, and secure infrastructure for data engineering. This setup not only enhances the efficiency of data processing and analysis but also ensures adaptability to evolving challenges, providing a robust foundation for data-driven decision-making.
-
----
 <p>
   <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/logo.jpg" alt="Logo" width="200" style="margin-right: 20px;"/>
   <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/marca.svg" alt="Brand" width="600"/>
@@ -14,6 +7,11 @@ By leveraging Kubernetes and containerization, organizations can build a resilie
 # MindsetCloud: Transforming Data into Powerful Insights 🌐
 
 </div>
+# DATA ENGINEERING
+
+### DATA ENGINEERING TOOLS AND INFRASTRUCTURE
+
+By leveraging Kubernetes and containerization, organizations can build a resilient, scalable, and secure infrastructure for data engineering. This setup not only enhances the efficiency of data processing and analysis but also ensures adaptability to evolving challenges, providing a robust foundation for data-driven decision-making.
 
 ---
 ## Table of Contents
