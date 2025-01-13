@@ -5,7 +5,24 @@
 By leveraging Kubernetes and containerization, organizations can build a resilient, scalable, and secure infrastructure for data engineering. This setup not only enhances the efficiency of data processing and analysis but also ensures adaptability to evolving challenges, providing a robust foundation for data-driven decision-making.
 
 ---
+# Data Engineering Banner
 
+<div align="center">
+
+### Data Engineering: Transforming Raw Data into Actionable Insights
+
+Data Engineering is the foundation of any data-driven organization. By leveraging modern tools and infrastructure, it enables efficient data collection, processing, and storage, powering analytics and machine learning at scale.
+
+---
+
+<p>
+  <img src="logo.svg" alt="Logo" width="200" style="margin-right: 20px;"/>
+  <img src="marca.svg" alt="Brand" width="200"/>
+</p>
+
+</div>
+
+---
 ## Table of Contents
 
 - [Kubernetes](https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/KUBERNETES/README.md)
