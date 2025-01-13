@@ -16,12 +16,6 @@ By leveraging Kubernetes and containerization, organizations can build a resilie
 
 Data Engineering is the foundation of any data-driven organization. By leveraging modern tools and infrastructure, it enables efficient data collection, processing, and storage, powering analytics and machine learning at scale.
 
----
-
-<p>
-  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/logo.jpg" alt="Logo" width="200" style="margin-right: 20px;"/>
-  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/marca.svg" alt="Brand" width="600"/>
-</p>
 
 </div>
 
