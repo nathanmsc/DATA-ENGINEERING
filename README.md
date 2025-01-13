@@ -17,7 +17,7 @@ Data Engineering is the foundation of any data-driven organization. By leveragin
 
 <p>
   <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/logo.jpg" alt="Logo" width="200" style="margin-right: 20px;"/>
-  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/marca.svg" alt="Brand" width="200"/>
+  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/marca.svg" alt="Brand" width="600"/>
 </p>
 
 </div>
