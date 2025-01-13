@@ -4,7 +4,7 @@
 </p>
 <div align="center">
   
-# MindsetCloud: Transforming Data into Powerful Insights 🌐
+# Transforming Data into Powerful Insights 🌐
 
 </div>
 
