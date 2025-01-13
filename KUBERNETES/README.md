@@ -238,4 +238,5 @@ kubectl config view --merge --flatten > C:\Users\<YourUsername>\.kube\config
 - [Multi-Master Setup](https://www.youtube.com/watch?v=SueeqeioyKY&t=805s)
 - [Kubeadm HA](https://github.com/justmeandopensource/kubernetes/tree/master/kubeadm-ha-keepalived-haproxy/external-keepalived-haproxy)
 - [Ingress Nginx and Metallb](https://www.youtube.com/watch?v=cO8TEEashIk)
+- [Install and configuration Metallb](https://www.youtube.com/watch?v=7P9oMMg_djQ)
 - [Metallb Documentation](https://metallb.io/installation)
