@@ -1,5 +1,5 @@
 <div>
-  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/logo.svg" alt="Logo" width="15%" style="margin-right: 1%;"/>
+  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/logo.svg" alt="Logo" width="20%" style="margin-right: 1%;"/>
   <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/marca.svg" alt="Brand" width="80%" style="margin-left: 1%;/>
 </div>
 <div align="center">
