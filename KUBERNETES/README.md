@@ -32,7 +32,7 @@ This script automates the installation of Kubernetes, Docker, and Golang.
 #### Direct Execution:
 ```bash
 echo "INSTALLING KUBERNETES, DOCKER AND GOLANG"
-curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh | sh
+curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/SCRIPTS/kubernetes.sh | sh
 ```
 
 #### Manual Execution:
