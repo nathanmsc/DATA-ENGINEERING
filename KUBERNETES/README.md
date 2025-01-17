@@ -38,7 +38,7 @@ curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUB
 #### Manual Execution:
 ```bash
 echo "Running: ./kubernetes.sh"
-curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/kubernetes.sh
+curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/SCRIPTS/kubernetes.sh
 sudo chmod +x kubernetes.sh
 ./kubernetes.sh
 ```
