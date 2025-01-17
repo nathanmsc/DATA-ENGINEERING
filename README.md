@@ -1,6 +1,6 @@
 <p>
-  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/logo.svg" alt="Logo" width="180" style="margin-right: 5%;"/>
-  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/marca.svg" alt="Brand" width="700" style="margin-right: 10%;/>
+  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/logo.svg" alt="Logo" width="160" style="margin-right: 1%;"/>
+  <img src="https://github.com/nathanmsc/DATA-ENGINEERING/blob/main/DOCKER/ZABBIX/src/img/marca.svg" alt="Brand" width="800" style="margin-left: 1%;/>
 </p>
 <div align="center">
   
