@@ -232,7 +232,7 @@ parameters:
   pzthPattern: ${.PVC.namespace}-${.PVC.name}
 provisioner: rancher.io/local-path
 reclaimPolicy: Retain
-volumeBindingMode: WaitForFirstConsumer
+volumeBindingMode: Immediate
 ```
 
 Set destination path
