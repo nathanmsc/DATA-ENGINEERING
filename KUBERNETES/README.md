@@ -229,7 +229,7 @@ metadata:
 provisioner: rancher.io/local-path
 parameters:
   archiveOnDelete: "true"
-  pzthPattern: ${.PVC.namespace}-${.PVC.name}
+  pathPattern: ${.PVC.namespace}-${.PVC.name}
 provisioner: rancher.io/local-path
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
