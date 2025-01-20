@@ -221,20 +221,9 @@ Set Storage Class local-path as default
 kubectl edit sc local-path
 ```
 
-Create Storage Class
-
+Modify annotaion
 ```yml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
- name: local
-provisioner: rancher.io/local-path
-parameters:
-  archiveOnDelete: "true"
-  pathPattern: ${.PVC.namespace}-${.PVC.name}
-provisioner: rancher.io/local-path
-reclaimPolicy: Retain
-volumeBindingMode: Immediate
+storageclass.kubernetes.io/is-default-class: "true"
 ```
 
 Set destination path
