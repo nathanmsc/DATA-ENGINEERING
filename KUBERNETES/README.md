@@ -220,10 +220,27 @@ Set Storage Class local-path as default
 Kubectl edit sc local-path
 ```
 
-Adding annotation
+Modify annotation
 
 ```yml
 storageclass.kubernetes.io/is-default-class: "true"
+```
+
+Set destination path
+
+```bash
+kubectl -n local-path-storage edit configmap local-path-config
+```
+
+Modify annotation
+
+```yml
+ "nodePathMap":[
+            {
+                    "node":"DEFAULT_PATH_FOR_NON_LISTED_NODES",
+                    "paths":["/mnt/storage/local-path-provisioner"]
+            }
+            ]
 ```
 
 ---
