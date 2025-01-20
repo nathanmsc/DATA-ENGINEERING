@@ -210,8 +210,10 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 Deploy the Local Path Provisioner
 
+
 ```bash
-kubectl -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.30/deploy/local-path-storage.yaml apply
+#https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.30/deploy/local-path-storage.yaml 
+kubectl -f https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/refs/heads/main/KUBERNETES/SCRIPTS/local-path.yaml apply
 ```
 Set Storage Class local-path as default
 
