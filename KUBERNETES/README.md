@@ -89,7 +89,6 @@ kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
         --v=5  --ignore-preflight-errors=all
 ```
 
-
 ---
 
 ## Configuration Using YAML
@@ -224,6 +223,7 @@ Modify annotation
 
 ```yml
 storageclass.kubernetes.io/is-default-class: "true"
+reclaimPolicy: Retain
 ```
 
 Set destination path
