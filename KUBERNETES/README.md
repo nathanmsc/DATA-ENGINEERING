@@ -217,7 +217,7 @@ kubectl -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0
 Set Storage Class local-path as default
 
 ```bash
-Kubectl edit sc local-path
+kubectl edit sc local-path
 ```
 
 Modify annotation
