@@ -223,6 +223,11 @@ kubectl -f https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/refs/hea
 Set Storage Class local-path as default
 
 ```bash
+ kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+```
+or edit storage class yaml file
+
+```bash
 kubectl edit sc local-path
 ```
 
