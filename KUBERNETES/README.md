@@ -215,12 +215,11 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 Deploy the Local Path Provisioner
 
-
 ```bash
 #https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.30/deploy/local-path-storage.yaml 
 kubectl -f https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/refs/heads/main/KUBERNETES/SCRIPTS/local-path.yaml apply
 ```
-Set Storage Class local-path as default
+Set Storage Class local-path as default from cli
 
 ```bash
  kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
@@ -233,7 +232,10 @@ kubectl edit sc local-path
 
 Modify annotaion
 ```yml
-storageclass.kubernetes.io/is-default-class: "true"
+annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"local-path"},"provisioner":"rancher.io/local-path","reclaimPolicy":"Retain","volumeBindingMode":"WaitForFirstConsumer"}
+    storageclass.kubernetes.io/is-default-class: "true"
 ```
 
 Set destination path
