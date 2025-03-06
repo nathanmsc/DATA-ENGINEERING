@@ -134,6 +134,11 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 sleep 4
 ```
+### setting role name for workers
+
+```bash
+kubectl label nodes worker-01 node-role.kubernetes.io/worker=worker-plane
+```
 
 ### Install and Configure Calico for Networking
 
