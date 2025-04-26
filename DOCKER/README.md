@@ -12,7 +12,7 @@ This guide provides step-by-step instructions for installing Docker on Ubuntu an
 Use the following command to quickly install Docker using a script:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/docker.sh | sh
+curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/refs/heads/main/KUBERNETES/SCRIPTS/docker.sh | sh
 ```
 
 ---
