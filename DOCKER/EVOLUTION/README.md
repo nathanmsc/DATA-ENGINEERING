@@ -1,1 +1,71 @@
 ## EVOLUTION API
+
+### INSTALL WITH DOCKER COMPOSE FILES
+```yaml
+services:
+  api:
+    container_name: evolution_api
+    image: atendai/evolution-api:latest
+    restart: always
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - 8080:8080
+    volumes:
+      - evolution_instances:/evolution/instances
+    networks:
+      evolution-net:
+        ipv4_address: 172.19.0.4
+    env_file:
+      - .env
+    expose:
+      - 8080
+
+  redis:
+    image: redis:latest
+    networks:
+      evolution-net:
+        ipv4_address: 172.19.0.5
+    container_name: redis
+    command: >
+      redis-server --port 6379 --appendonly yes
+    volumes:
+      - evolution_redis:/data
+    ports:
+      - 6379:6379
+
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    networks:
+      evolution-net:
+        ipv4_address: 172.19.0.6
+    command: ["postgres", "-c", "max_connections=1000", "-c", "listen_addresses=*"]
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=evolution
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+
+volumes:
+  evolution_instances:
+  evolution_redis:
+  postgres_data:
+
+
+networks:
+  evolution-net:
+    name: evolution-net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+```
