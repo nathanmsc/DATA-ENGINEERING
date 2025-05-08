@@ -28,12 +28,12 @@ uv pip install -r requirements.txt
 
 ### SIMPLE MCP SERVER WITH PYTHON
 ```py
-from.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP('MCPServer')
 
 if __name__ == '__main__':
-    mcp.run()
+    mcp.run(transport='sse')
 ```
 
 ### RUN LOCAL MCP STDIO
