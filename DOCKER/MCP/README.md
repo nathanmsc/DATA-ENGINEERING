@@ -51,3 +51,4 @@ uv run server.py
 ||https://www.youtube.com/watch?v=ZqlpCliftQg|
 ||https://www.youtube.com/watch?v=ZqlpCliftQg|
 |MCP Local|https://www.youtube.com/watch?v=03P9Y99bhLo|
+|Local llm with MCP|https://www.youtube.com/watch?v=aiH79Q-LGjY|
