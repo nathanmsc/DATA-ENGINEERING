@@ -18,6 +18,7 @@ source $HOME/.local/bin/env
 uv init mcp
 cd mcp
 uv add mcp "mcp[cli]"
+source .venv/bin/activate
 ```
 ### INSTALL REQUIREMENTS
 ```sh
