@@ -19,6 +19,10 @@ uv init mcp
 cd mcp
 uv add mcp "mcp[cli]"
 ```
+### INSTALL REQUIREMENTS
+```sh
+uv pip install -r requirements.txt
+```
 ---
 
 ### SIMPLE MCP SERVER WITH PYTHON
@@ -28,7 +32,7 @@ from.server.fastmcp import FastMCP
 mcp = FastMCP('MCPServer')
 
 if __name__ == '__main__':
-    mcp.run
+    mcp.run()
 ```
 
 ### RUN LOCAL MCP
