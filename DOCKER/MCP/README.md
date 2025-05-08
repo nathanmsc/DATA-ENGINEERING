@@ -1,3 +1,12 @@
+
+N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
+n8n-nodes-mcp-client
+
+serpAPI
+https://www.youtube.com/watch?v=pT32eqHaWj4
+
+
+npm install -g @modelcontextprotocol/server-brave-search
 apt update -y
 
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -9,13 +18,15 @@ source .venv/bin/activate
 
 uv add "mcp[cli]"
 uv run mcp
-
+```py
 from.server.fastmcp import FastMCP
 
 mcp = FastMCP('MCPServer')
 
 if __name__ == '__main__':
     mcp.run
+```
 
+```sh
 mcp run server.py
-
+```
