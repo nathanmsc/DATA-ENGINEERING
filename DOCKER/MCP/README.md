@@ -7,17 +7,19 @@ https://www.youtube.com/watch?v=pT32eqHaWj4
 
 
 npm install -g @modelcontextprotocol/server-brave-search
-apt update -y
 
+```sh
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && apt install -y nodejs
 curl -LsSf https://astral.sh/uv/install.sh | sh
 source $HOME/.local/bin/env
 uv init mcp
 cd mcp
-uv venv
+uv add mcp "mcp[cli]"
+```
+```sh
 source .venv/bin/activate
-
-uv add "mcp[cli]"
 uv run mcp
+```
 ```py
 from.server.fastmcp import FastMCP
 
