@@ -18,9 +18,6 @@ RUN mkdir /home/mcp && \
     chown -R mcp:mcp /home/mcp && \
     rm -f /tmp/password
 
-
-
-
 USER mcp
 WORKDIR /home/mcp
 
@@ -37,17 +34,17 @@ WORKDIR /home/mcp/server
 RUN uv add mcp "mcp[cli]"
 # Copy project file
 COPY pyproject.toml /home/mcp/server/pyproject.toml
-COPY server.py /home/mcp/server/main.py
+COPY server.py /home/mcp/server/server.py
 
 RUN /bin/bash -c 'ls -la /home/mcp/server && sleep 5' 
-RUN cat /home/mcp/server/main.py && sleep 5
+RUN cat /home/mcp/server/server.py && sleep 5
 
 # Ensure the venv activates on shell login
 RUN echo 'source /home/mcp/server/.venv/bin/activate' >> /home/mcp/.bashrc
 
 # Expose the app port
 ENV MCP_HOST=0.0.0.0
-EXPOSE 6274
+EXPOSE 6274 6277 3001 
 
 # Default command
-CMD ["/bin/bash", "-c", "source /home/mcp/server/.venv/bin/activate && uv run main.py"]
+CMD ["/bin/bash", "-c", "source /home/mcp/server/.venv/bin/activate && uv run server.py && python server.py"]
