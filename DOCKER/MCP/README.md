@@ -38,7 +38,7 @@ if __name__ == '__main__':
 ### RUN LOCAL MCP
 ```sh
 source .venv/bin/activate
-uv run main.py
+uv run server.py
 ```
 ---
 ### REFERÊNCIAS
