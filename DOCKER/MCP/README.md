@@ -1,13 +1,14 @@
-
+### ENABLE COMUNITY NODES
+```yaml
 N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
+```
+### ADD COMUNITY NODE MCP CLIENT
 n8n-nodes-mcp-client
 
-serpAPI
-https://www.youtube.com/watch?v=pT32eqHaWj4
-
-
+### ADD MCP TOOLS
+```npx
 npm install -g @modelcontextprotocol/server-brave-search
-
+```
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && apt install -y nodejs
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -33,5 +34,6 @@ if __name__ == '__main__':
 mcp run server.py
 ```
 
-[n8n-mcp-server](https://huggingface.co/blog/lynn-mikami/n8n-mcp-server)
-[n8n-nodes-mcp](https://github.com/nerding-io/n8n-nodes-mcp)
+[n8n-mcp-server](https://huggingface.co/blog/lynn-mikami/n8n-mcp-server)|
+[n8n-nodes-mcp](https://github.com/nerding-io/n8n-nodes-mcp)|
+[serpAPI](https://www.youtube.com/watch?v=pT32eqHaWj4)|
