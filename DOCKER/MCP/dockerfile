@@ -1,0 +1,53 @@
+FROM ubuntu:latest
+
+# Install necessary packages
+RUN apt update && \
+    apt install -y sudo curl systemd build-essential perl && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && \
+    apt install -y nodejs
+
+# Add user 'mcp' with password
+COPY password /tmp/password
+
+RUN mkdir /home/mcp && \
+    secret=$(perl -e 'print crypt($ARGV[0], "password")' $(cat /tmp/password)) && \
+    useradd -m -p "$secret" -s /bin/bash mcp && \
+    cp -r /etc/skel/. /home/mcp && \
+    usermod -aG sudo mcp && \
+    chmod -R 0755 /home/mcp && \
+    chown -R mcp:mcp /home/mcp && \
+    rm -f /tmp/password
+
+
+
+
+USER mcp
+WORKDIR /home/mcp
+
+# Install uv and update PATH
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+ENV PATH="/home/mcp/.local/bin:${PATH}"
+
+# Create venv and initialize project
+RUN uv init server
+
+# Set workdir to the actual project root (where pyproject.toml lives)
+WORKDIR /home/mcp/server
+RUN uv add mcp "mcp[cli]"
+# Copy project file
+COPY pyproject.toml /home/mcp/server/pyproject.toml
+COPY server.py /home/mcp/server/main.py
+
+RUN /bin/bash -c 'ls -la /home/mcp/server && sleep 5' 
+RUN cat /home/mcp/server/main.py && sleep 5
+
+# Ensure the venv activates on shell login
+RUN echo 'source /home/mcp/server/.venv/bin/activate' >> /home/mcp/.bashrc
+
+# Expose the app port
+ENV MCP_HOST=0.0.0.0
+EXPOSE 6274
+
+# Default command
+CMD ["/bin/bash", "-c", "source /home/mcp/server/.venv/bin/activate && uv run main.py"]
