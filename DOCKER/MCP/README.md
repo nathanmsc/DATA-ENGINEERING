@@ -35,10 +35,15 @@ if __name__ == '__main__':
     mcp.run()
 ```
 
-### RUN LOCAL MCP
+### RUN LOCAL MCP STDIO
 ```sh
 source .venv/bin/activate
 uv run server.py
+```
+### RUN LOCAL MCP SSE TRANSPORT
+```sh
+source .venv/bin/activate
+python server.py
 ```
 ---
 ### REFERÊNCIAS
