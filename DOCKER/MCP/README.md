@@ -30,3 +30,8 @@ if __name__ == '__main__':
 ```sh
 mcp run server.py
 ```
+
+```link
+[n8n-mcp-server](https://huggingface.co/blog/lynn-mikami/n8n-mcp-server)
+[n8n-nodes-mcp](https://github.com/nerding-io/n8n-nodes-mcp)
+```
