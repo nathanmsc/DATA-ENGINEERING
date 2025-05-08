@@ -18,7 +18,7 @@ uv add mcp "mcp[cli]"
 ```
 ```sh
 source .venv/bin/activate
-uv run mcp
+uv run main.py
 ```
 ```py
 from.server.fastmcp import FastMCP
