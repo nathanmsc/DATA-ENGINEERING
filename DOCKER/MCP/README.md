@@ -9,6 +9,8 @@ n8n-nodes-mcp-client
 ```npx
 npm install -g @modelcontextprotocol/server-brave-search
 ```
+---
+### LOCAL MCP SERVER WITH PYTHON
 ```sh
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && apt install -y nodejs
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -17,10 +19,9 @@ uv init mcp
 cd mcp
 uv add mcp "mcp[cli]"
 ```
-```sh
-source .venv/bin/activate
-uv run main.py
-```
+---
+
+### SIMPLE MCP SERVER WITH PYTHON
 ```py
 from.server.fastmcp import FastMCP
 
@@ -30,8 +31,10 @@ if __name__ == '__main__':
     mcp.run
 ```
 
+### RUN LOCAL MCP
 ```sh
-mcp run server.py
+source .venv/bin/activate
+uv run main.py
 ```
 ---
 ### REFERÊNCIAS
