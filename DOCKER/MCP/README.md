@@ -34,7 +34,7 @@ mcp = FastMCP(
     name='MCPServer',
     host='localhost',
     port=3001,
-    sse_path='/message/',
+    sse_path='/sse/',
 )
 
 @mcp.tool()
