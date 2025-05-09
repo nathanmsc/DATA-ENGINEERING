@@ -65,7 +65,10 @@ python server.py
 ```sh
 mcp dev server.py
 ```
-
+### DOCKER RUN
+```sh
+ docker run -it --name mcp-server --hostname mcp-server --restart always --net network --ip 172.19.0.35 -p 3001:3001 -p 6274:6274 -p 6277:6277 -d container-image
+```
 ---
 ### REFERÊNCIAS
 
