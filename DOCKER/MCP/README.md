@@ -47,7 +47,7 @@ def list_task(max_results: int) -> list[str]:  # Use List[str] se Python <3.9
     ][:max_results]
 
 if __name__ == '__main__':
-    mcp.run(transport='streamable-http')
+    mcp.run(transport='sse')
 
 ```
 
