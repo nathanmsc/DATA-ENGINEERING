@@ -32,7 +32,7 @@ from mcp.server.fastmcp import FastMCP  # Certifique-se de que esse caminho é v
 
 mcp = FastMCP(
     name='MCPServer',
-    host='localhost',
+    host='container-ip',
     port=3001,
     sse_path='/sse/',
 )
@@ -47,7 +47,7 @@ def list_task(max_results: int) -> list[str]:  # Use List[str] se Python <3.9
     ][:max_results]
 
 if __name__ == '__main__':
-    mcp.run(transport='sse')
+    mcp.run(transport='streamable-http')
 
 ```
 
