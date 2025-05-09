@@ -69,7 +69,7 @@ Run the following commands to install Docker and verify the installation:
 apt-cache policy docker-ce
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-powered docker-buildx docker-clean docker-doc docker-registry
 ```
 
 #### Step 5: Add User to the Docker Group
