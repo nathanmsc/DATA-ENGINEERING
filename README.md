@@ -4,7 +4,7 @@
 </div>
 <div align="center">
   
-<p align="center">
+<p align="right">
   <h1>Transforming Data into Powerful Insights 🌐</h1>
 </p>
 
