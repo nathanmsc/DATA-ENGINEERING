@@ -4,7 +4,9 @@
 </div>
 <div align="center">
   
-# Transforming Data into Powerful Insights 🌐
+<p align="center">
+  <h1>Transforming Data into Powerful Insights 🌐</h1>
+</p>
 
 </div>
 
