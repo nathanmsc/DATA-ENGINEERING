@@ -1,12 +1,10 @@
 FROM ubuntu:latest
 
-# Install necessary packages
 RUN apt update && \
     apt install -y sudo curl systemd build-essential perl && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && \
     apt install -y nodejs
 
-# Add user 'mcp' with password
 COPY password /tmp/password
 
 RUN mkdir /home/mcp && \
@@ -21,30 +19,31 @@ RUN mkdir /home/mcp && \
 USER mcp
 WORKDIR /home/mcp
 
-# Install uv and update PATH
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 ENV PATH="/home/mcp/.local/bin:${PATH}"
 
-# Create venv and initialize project
 RUN uv init server
-
-# Set workdir to the actual project root (where pyproject.toml lives)
 WORKDIR /home/mcp/server
 RUN uv add mcp "mcp[cli]"
-# Copy project file
+
 COPY pyproject.toml /home/mcp/server/pyproject.toml
 COPY server.py /home/mcp/server/server.py
 
-RUN /bin/bash -c 'ls -la /home/mcp/server && sleep 5' 
-RUN cat /home/mcp/server/server.py && sleep 5
+USER root
+COPY entrypoint.sh /home/mcp/server/entrypoint.sh
+RUN chmod +x /home/mcp/server/entrypoint.sh
 
-# Ensure the venv activates on shell login
 RUN echo 'source /home/mcp/server/.venv/bin/activate' >> /home/mcp/.bashrc
+USER mcp
 
-# Expose the app port
-ENV MCP_HOST=0.0.0.0
-EXPOSE 6274 6277 3001 
+ENV MCP_HOST='localhost'
+ENV MCP_PORT=6274
+ENV MCP_API_PORT=6277
+ENV MCP_API_URL='http://172.19.0.35:6277'
 
+EXPOSE 6274 6277 3001
+
+ENTRYPOINT [ "/home/mcp/server/entrypoint.sh" ]
 # Default command
-CMD ["/bin/bash", "-c", "source /home/mcp/server/.venv/bin/activate && uv run server.py && python server.py"]
+CMD ["/bin/bash", "-c", "source /home/mcp/server/.venv/bin/activate"]
