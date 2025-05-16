@@ -2,16 +2,12 @@ Para atualizar a tabela client no MySQL com segurança e controle, você deve us
 
 ✅ Comandos a usar antes e depois da atualização:
 1. Iniciar a transação:
-sql
-Copiar
-Editar
+```sql
 START TRANSACTION;
-ou
-
-sql
-Copiar
-Editar
+```
+```sql
 BEGIN;
+```
 Isso garante que nenhuma alteração será confirmada até você verificar que tudo correu bem.
 
 2. Executar a atualização (exemplo):
