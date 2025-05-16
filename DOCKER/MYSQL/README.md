@@ -99,21 +99,26 @@ SHOW TABLE STATUS LIKE 'client';
 O InnoDB é um dos motores de armazenamento (storage engine) mais importantes e amplamente usados no MySQL. Ele define como os dados são armazenados, manipulados e recuperados dentro do banco de dados.
 
 🧩 Principais características do InnoDB:
+
 ✅ Suporte a transações (ACID)
 Garante confiabilidade das operações com comandos como BEGIN, COMMIT e ROLLBACK.
 
 É ideal para sistemas onde consistência e integridade são cruciais.
 
 ✅ Integridade referencial com chaves estrangeiras (foreign keys)
+
 Permite definir relacionamentos entre tabelas, com verificação automática de integridade.
 
 ✅ Bloqueio em nível de linha (row-level locking)
+
 Permite que múltiplos usuários modifiquem dados ao mesmo tempo sem conflitos, ideal para ambientes com alta concorrência.
 
 ✅ Recuperação automática após falhas
+
 Usa arquivos de log para restaurar o estado do banco após falhas no sistema ou desligamento inesperado.
 
 ✅ Armazena dados em um tablespace (arquivo físico no disco)
+
 Os dados e índices são organizados em páginas de dados, que são gerenciadas automaticamente.
 
 🚫 Comparação com MyISAM (antigo engine padrão):
@@ -137,8 +142,8 @@ CREATE TABLE clientes (
     nome VARCHAR(100),
     email VARCHAR(100)
 ) ENGINE=InnoDB;
-Se quiser converter uma tabela antiga (MyISAM) para InnoDB:
 ```
+Se quiser converter uma tabela antiga (MyISAM) para InnoDB:
 ```SQL
 ALTER TABLE nome_da_tabela ENGINE = InnoDB;
 ```
