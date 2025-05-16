@@ -122,12 +122,13 @@ Usa arquivos de log para restaurar o estado do banco após falhas no sistema ou 
 Os dados e índices são organizados em páginas de dados, que são gerenciadas automaticamente.
 
 🚫 Comparação com MyISAM (antigo engine padrão):
+
 Recurso	InnoDB	MyISAM
-Transações	✅ Suporta	❌ Não suporta
-Chaves estrangeiras	✅ Suporta	❌ Não suporta
-Bloqueio	🔒 Por linha	🔒 Por tabela
-Recuperação de falhas	✅ Automática	❌ Limitada
-Velocidade em leitura	⚠️ Um pouco menor	✅ Alta
+|Transações	|✅ Suporta	|❌ Não suporta|
+|Chaves estrangeiras |✅ Suporta	| ❌ Não suporta |
+|Bloqueio	|🔒 Por linha	|🔒 Por tabela |
+|Recuperação de falhas	| ✅ Automática	|❌ Limitada |
+|Velocidade em leitura |	⚠️ Um pouco menor |	✅ Alta |
 
 🔍 Como verificar se uma tabela usa InnoDB:
 ```SQL
