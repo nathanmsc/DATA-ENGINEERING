@@ -123,7 +123,8 @@ Os dados e índices são organizados em páginas de dados, que são gerenciadas 
 
 🚫 Comparação com MyISAM (antigo engine padrão):
 
-Recurso	InnoDB	MyISAM
+| Recurso |	InnoDB |	MyISAM |
+|--------------|---------|-----------|
 |Transações	|✅ Suporta	|❌ Não suporta|
 |Chaves estrangeiras |✅ Suporta	| ❌ Não suporta |
 |Bloqueio	|🔒 Por linha	|🔒 Por tabela |
