@@ -1,41 +1,41 @@
+# ⚙️ Kubernetes and Docker Setup Guide
 
-# Kubernetes and Docker Setup Guide
-
-This guide provides a step-by-step walkthrough for setting up Docker, CRI-Docker, Kubernetes, and related tools on a Linux system. It includes configurations for a single-node or multi-node Kubernetes cluster. 
-
----
-
-## Prerequisites
-
-Before proceeding, ensure the following:
-
-1. **Disable Swap**:
-   ```bash
-   sudo swapoff -a
-   sudo sed -i '/swap/d' /etc/fstab
-   ```
-
-2. **Install Docker**:
-   Refer to the Docker installation instructions for your distribution.
-
-3. **Install Go**:
-   Install the latest version of Go as required by Kubernetes.
+This guide provides a comprehensive step-by-step process to set up Docker, CRI-Docker, Kubernetes, and related tools on a Linux system. It includes configurations for single-node or multi-node Kubernetes clusters.
 
 ---
 
-## Kubernetes Setup Script
+## ⚡️ Prerequisites
 
-### Installation
+Before you begin, ensure the following steps:
 
-This script automates the installation of Kubernetes, Docker, and Golang.
+### ❌ Disable Swap
 
-#### Direct Execution:
+```bash
+sudo swapoff -a
+sudo sed -i '/swap/d' /etc/fstab
+```
+
+### 📦 Install Docker
+
+Refer to the Docker installation guide for your distribution.
+
+### 🌟 Install Go
+
+Install the latest version of Go as required for Kubernetes.
+
+---
+
+## ⚙️ Kubernetes Installation Script
+
+### 🔄 Automatic Installation
+
 ```bash
 echo "INSTALLING KUBERNETES, DOCKER AND GOLANG"
 curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/SCRIPTS/kubernetes.sh | sh
 ```
 
-#### Manual Execution:
+### 🔧 Manual Execution
+
 ```bash
 echo "Running: ./kubernetes.sh"
 curl -O https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/main/KUBERNETES/SCRIPTS/kubernetes.sh
@@ -45,16 +45,13 @@ sudo chmod +x kubernetes.sh
 
 ---
 
-## Multi-Node Configuration
+## 👥 Multi-Node Configuration
 
-### Master Node Setup
-
-Configure the master node with the following:
+### 🔍 Master Node Configuration
 
 ```bash
-#CONFIGURATION ON ONE MASTER
-export $ENDPOINT=<ip-node-master>
-export $POD_NETWORK=<ip-network\mask>
+export ENDPOINT=<ip-node-master>
+export POD_NETWORK=<ip-network\mask>
 sudo kubeadm init \
   --control-plane-endpoint $ENDPOINT:6443 \
   --pod-network-cidr=$POD_NETWORK \
@@ -65,11 +62,10 @@ sudo kubeadm init \
   --ignore-preflight-errors=all
 ```
 
-Configure anothers nodes with the following:
+### 🔗 Other Master Nodes Configuration
 
 ```bash
-#CONFIGURATION ON ANOTHER CONTROLPLANE
-export $ENDPOINT=<ip-node-master>
+export ENDPOINT=<ip-node-master>
 kubeadm join <CONTROL_PLANE_IP>:6443 \
   --apiserver-advertise-address=<ip-this-server> \
   --token <TOKEN> \
@@ -79,9 +75,7 @@ kubeadm join <CONTROL_PLANE_IP>:6443 \
   --ignore-preflight-errors=all
 ```
 
-### Worker Node Setup
-
-After initializing the master node, join worker nodes using the generated `kubeadm join` command:
+### 🌍 Worker Node Configuration
 
 ```bash
 kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
@@ -91,15 +85,15 @@ kubeadm join <CONTROL_PLANE_IP>:6443 --token <TOKEN> \
 
 ---
 
-## Configuration Using YAML
+## 📂 YAML Configuration
 
-### Initialize with Config File
+### 🗓️ Initialize with Config File
 
 ```bash
 kubeadm init --config '~/kubeadm-config.yml' --upload-certs
 ```
 
-### Sample `kubeadm-config.yml`
+### 🔢 Example `kubeadm-config.yml`
 
 ```yaml
 apiVersion: kubeadm.k8s.io/v1beta3
@@ -108,7 +102,6 @@ controlPlaneEndpoint: "172.27.11.200:6443"
 networking:
   podSubnet: "192.168.0.0/16"
   serviceSubnet: "10.96.0.0/12"
-
 ---
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
@@ -124,9 +117,9 @@ nodeRegistration:
 
 ---
 
-## Post-Setup Configuration
+## 📆 Post-Setup Configuration
 
-### Configure `kubectl`
+### 🔧 Configure `kubectl`
 
 ```bash
 mkdir -p $HOME/.kube
@@ -134,13 +127,14 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 sleep 4
 ```
-### setting role name for workers
+
+### 👥 Set Role for Worker Nodes
 
 ```bash
 kubectl label nodes worker-01 node-role.kubernetes.io/worker=worker-plane
 ```
 
-### Install and Configure Calico for Networking
+### 🚀 Install and Configure Calico
 
 ```bash
 echo "INSTALLING AND CONFIGURING CALICO"
@@ -149,15 +143,13 @@ kubectl apply -f calico.yaml
 sleep 2
 ```
 
-### Update Kube Proxy Configuration
-
-Edit the `kube-proxy` ConfigMap to enable `ipvs` mode:
+### 🖊️ Update Kube Proxy Configuration
 
 ```bash
 kubectl edit configmap -n kube-system kube-proxy
 ```
 
-Modify the configuration:
+Adjust to:
 
 ```yaml
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
@@ -169,15 +161,15 @@ ipvs:
 
 ---
 
-## Metallb Installation
+## 🚀 Install Metallb
 
-### Deploy Metallb
+### 🔧 Deploy Metallb
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml -n metallb-system
 ```
 
-### Metallb Configuration
+### 🔢 Metallb Configuration
 
 ```yaml
 apiVersion: metallb.io/v1beta1
@@ -201,9 +193,7 @@ spec:
 
 ---
 
-## Nginx Ingress Controller
-
-Deploy the Nginx Ingress Controller:
+## 🌐 Nginx Ingress Controller
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.0/deploy/static/provider/baremetal/deploy.yaml
@@ -211,68 +201,66 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 ---
 
-## Local Path Provisoner 
+## 📂 Local Path Provisioner
 
-Deploy the Local Path Provisioner
+### 🔧 Deploy Local Path Provisioner
 
 ```bash
-#https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.30/deploy/local-path-storage.yaml 
 kubectl -f https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/refs/heads/main/KUBERNETES/SCRIPTS/local-path.yaml apply
 ```
-Set Storage Class local-path as default from cli
+
+### 🔍 Set Storage Class as Default
 
 ```bash
- kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
-or edit storage class yaml file
+
+Or edit via YAML:
 
 ```bash
 kubectl edit sc local-path
 ```
 
-Modify annotaion
-```yml
+Adjust annotation:
+
+```yaml
 annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"local-path"},"provisioner":"rancher.io/local-path","reclaimPolicy":"Retain","volumeBindingMode":"WaitForFirstConsumer"}
-    storageclass.kubernetes.io/is-default-class: "true"
+  storageclass.kubernetes.io/is-default-class: "true"
 ```
 
-Set destination path
+### 🏠 Set Destination Path
 
 ```bash
 kubectl -n local-path-storage edit configmap local-path-config
 ```
 
-Modify annotation
+Adjust to:
 
-```yml
- "nodePathMap":[
-            {
-                    "node":"DEFAULT_PATH_FOR_NON_LISTED_NODES",
-                    "paths":["/mnt/storage/local-path-provisioner"]
-            }
-            ]
+```yaml
+nodePathMap:
+  - node: "DEFAULT_PATH_FOR_NON_LISTED_NODES"
+    paths:
+      - "/mnt/storage/local-path-provisioner"
 ```
 
 ---
 
-## Configuring `kubectl` on Windows
+## 💻 Configure `kubectl` on Windows
 
-### Install `kubectl`
+### ⚙️ Install `kubectl`
 
 ```bash
 winget install Kubernetes.kubectl
 kubectl version --client
 ```
 
-### Transfer Configuration File
+### 📦 Transfer Configuration File
 
 ```bash
 scp user@150.55.133.10:/etc/kubernetes/admin.conf C:\Users\<YourUsername>\kubeconfig-150.55.133.10
 ```
 
-### Set KUBECONFIG Environment Variable
+### 🔧 Set KUBECONFIG Environment Variable
 
 ```bash
 set KUBECONFIG=C:\Users\<YourUsername>\kubeconfig-150.55.133.10
@@ -282,11 +270,15 @@ kubectl config view --merge --flatten > C:\Users\<YourUsername>\.kube\config
 
 ---
 
-## References
+## 🔗 References
 
-- [David Hwang](https://www.youtube.com/watch?v=o6bxo0Oeg6o)
-- [Multi-Master Setup](https://www.youtube.com/watch?v=SueeqeioyKY&t=805s)
-- [Kubeadm HA](https://github.com/justmeandopensource/kubernetes/tree/master/kubeadm-ha-keepalived-haproxy/external-keepalived-haproxy)
-- [Ingress Nginx and Metallb](https://www.youtube.com/watch?v=cO8TEEashIk)
-- [Install and configuration Metallb](https://www.youtube.com/watch?v=7P9oMMg_djQ)
-- [Metallb Documentation](https://metallb.io/installation)
+* [David Hwang](https://www.youtube.com/watch?v=o6bxo0Oeg6o)
+* [Multi-Master Setup](https://www.youtube.com/watch?v=SueeqeioyKY&t=805s)
+* [Kubeadm HA](https://github.com/justmeandopensource/kubernetes/tree/master/kubeadm-ha-keepalived-haproxy/external-keepalived-haproxy)
+* [Ingress Nginx and Metallb](https://www.youtube.com/watch?v=cO8TEEashIk)
+* [Install and Configure Metallb](https://www.youtube.com/watch?v=7P9oMMg_djQ)
+* [Metallb Documentation](https://metallb.io/installation)
+
+---
+
+🌟 Optimized guide with icons for better visualization and navigation.
