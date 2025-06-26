@@ -1,7 +1,7 @@
 
 # Docker Installation Guide
 
-This guide provides step-by-step instructions for installing Docker on Ubuntu and setting up Docker Compose.
+Este guia fornece instruções passo a passo para instalar o Docker no Ubuntu e configurar o Docker Compose.
 
 ---
 
@@ -9,7 +9,7 @@ This guide provides step-by-step instructions for installing Docker on Ubuntu an
 
 ### Option 1: Install via Script
 
-Use the following command to quickly install Docker using a script:
+Use o comando abaixo para instalar rapidamente o Docker via script:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/refs/heads/main/KUBERNETES/SCRIPTS/docker.sh | sh
@@ -21,23 +21,13 @@ curl -fsSL https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/refs/hea
 
 #### Step 1: Update System and Install Dependencies
 
-Run these commands to update the system and install the necessary packages:
-
 ```sh
 sudo apt-get update
 
-sudo apt-get install \
-    ca-certificates \
-    curl \
-    gnupg \
-    software-properties-common \
-    apt-transport-https \
-    lsb-release
+sudo apt-get install     ca-certificates     curl     gnupg     software-properties-common     apt-transport-https     lsb-release
 ```
 
 #### Step 2: Add Docker's Official GPG Key
-
-Create a directory for storing the GPG key and add Docker's official GPG key:
 
 ```sh
 sudo mkdir -p /etc/apt/keyrings
@@ -46,24 +36,14 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 
 #### Step 3: Add Docker's Repository
 
-Add the Docker repository to your system:
-
 ```sh
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
+echo   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-Update the package index:
-
-```sh
 sudo add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
 ```
 
 #### Step 4: Install Docker
-
-Run the following commands to install Docker and verify the installation:
 
 ```sh
 apt-cache policy docker-ce
@@ -74,8 +54,6 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 #### Step 5: Add User to the Docker Group
 
-To avoid using `sudo` with Docker commands, add your user to the Docker group:
-
 ```sh
 sudo usermod -aG docker ${USER}
 ```
@@ -84,11 +62,7 @@ sudo usermod -aG docker ${USER}
 
 ## Installing Docker Compose
 
-Docker Compose allows you to define and manage multi-container Docker applications.
-
 ### Step 1: Download Docker Compose
-
-Download the Docker Compose binary and make it executable:
 
 ```sh
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -96,8 +70,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 ### Step 2: Verify the Installation
-
-Check the version to confirm Docker Compose is installed:
 
 ```sh
 docker-compose --version
@@ -109,19 +81,17 @@ docker-compose --version
 
 ### Get Container ID
 
-Retrieve the ID of a specific container:
-
 ```sh
 docker inspect --format="{{.Id}}" container
 ```
 
 ### Edit Container Configuration
 
-To modify the container's configuration, edit the container file by its ID:
-
 ```sh
 vim /var/lib/docker/containers/<ID>
 ```
+
+---
 
 ## Useful Commands
 
@@ -152,12 +122,7 @@ ip addr
 ### Create Macvlan Network with Docker
 
 ```bash
-docker network create -d macvlan \
-  --subnet=172.27.136.42/20 \
-  --ip-range=172.27.142.0/24 \
-  --gateway=172.27.128.1 \
-  --aux-address="msc-router=172.27.142.1" \
-  -o parent=eth0 msc-macvlan
+docker network create -d macvlan   --subnet=172.27.136.42/20   --ip-range=172.27.142.0/24   --gateway=172.27.128.1   --aux-address="msc-router=172.27.142.1"   -o parent=eth0 msc-macvlan
 ```
 
 ### Link Macvlan Interface
@@ -171,31 +136,22 @@ sudo ifconfig msc-macvlan up
 ### Create Bridge Network in Docker
 
 ```bash
-docker network create \
-  --driver=bridge \
-  --subnet=192.168.32.0/16 \
-  --ip-range=192.168.32.0/24 \
-  --gateway=192.168.32.1 mindsetcloud-nt
+docker network create   --driver=bridge   --subnet=192.168.32.0/16   --ip-range=192.168.32.0/24   --gateway=192.168.32.1 mindsetcloud-nt
 ```
 
 #### Example of Custom Network:
 
 ```bash
-docker network create \
-  --subnet=10.10.1.0/24 \
-  --ip-range=10.10.1.128/25 \
-  --gateway=10.10.1.129 my_custom_network
+docker network create   --subnet=10.10.1.0/24   --ip-range=10.10.1.128/25   --gateway=10.10.1.129 my_custom_network
 
 # Verify the created network:
 docker network inspect my_custom_network
 
 # Run a container with a fixed IP:
-docker run -d --name my_container \
-  --net my_custom_network \
-  --ip 10.10.1.130 image_name
+docker run -d --name my_container   --net my_custom_network   --ip 10.10.1.130 image_name
 ```
 
-Reference: [Docker Labs - Macvlan](https://dockerlabs.collabnix.com/beginners/macvlan-010.html)
+Referência: [Docker Labs - Macvlan](https://dockerlabs.collabnix.com/beginners/macvlan-010.html)
 
 ---
 
@@ -225,7 +181,7 @@ netsh interface portproxy add v4tov4 listenport=port listenaddress=0.0.0.0 conne
 
 ## Service Permissions on Linux
 
-Add the following lines to the `/etc/sudoers` file or use `visudo`:
+Adicione as permissões no arquivo `/etc/sudoers` ou use `visudo`:
 
 ```bash
 username ALL=NOPASSWD: /usr/sbin/service ssh start
@@ -235,8 +191,6 @@ username ALL=NOPASSWD: /usr/sbin/service docker start
 ---
 
 ### Configuration in `~/.bashrc`
-
-Add the following commands to the profile file:
 
 ```bash
 vim ~/.bashrc
