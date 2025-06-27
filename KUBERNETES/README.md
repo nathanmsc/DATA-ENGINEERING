@@ -52,6 +52,9 @@ sudo chmod +x kubernetes.sh
 ```bash
 export ENDPOINT=<ip-node-master>
 export POD_NETWORK=<ip-network\mask>
+```
+
+```bash
 sudo kubeadm init \
   --control-plane-endpoint $ENDPOINT:6443 \
   --pod-network-cidr=$POD_NETWORK \
@@ -66,6 +69,9 @@ sudo kubeadm init \
 
 ```bash
 export ENDPOINT=<ip-node-master>
+```
+
+```bash
 kubeadm join <CONTROL_PLANE_IP>:6443 \
   --apiserver-advertise-address=<ip-this-server> \
   --token <TOKEN> \
