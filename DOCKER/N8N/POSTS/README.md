@@ -50,9 +50,9 @@ https://github.com/nathanmsc/DATA-ENGINEERING/edit/main/DOCKER/N8N/POSTS/automat
 
      * Google Sheets API
 
- * Criar credenciais OAuth e importar no n8n
+  * Criar credenciais OAuth e importar no n8n
 
- * Conectar nodes do n8n às contas do Google
+  * Conectar nodes do n8n às contas do Google
 
 ### REFERENCES
 
