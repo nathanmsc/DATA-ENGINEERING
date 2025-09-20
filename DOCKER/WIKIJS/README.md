@@ -1,4 +1,6 @@
-https://www.youtube.com/watch?v=8fNm6LLZ5WYCREATE USER wikijs WITH PASSWORD 'd2lraWpzZGI=';
+https://www.youtube.com/watch?v=8fNm6LLZ5WY
+
+CREATE USER wikijs WITH PASSWORD 'd2lraWpzZGI=';
 ALTER USER wikijs CREATEDB;
 GRANT ALL PRIVILEGES ON DATABASE wikidb TO wikijs;
 CREATE DATABASE wikidb;
