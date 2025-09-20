@@ -1,6 +1,6 @@
 ## 📌 Automação de Postagens no Instagram com n8n + Ollama + Google API
 
-###🔧 Ferramentas Utilizadas
+### 🔧 Ferramentas Utilizadas
 
 * n8n → Orquestração da automação
 
@@ -17,6 +17,7 @@
   * Google Sheets (planejamento de calendário de postagens)
 
   * Google Writer & Calc (edição colaborativa de conteúdo)
+  
 
 ### AUTOMATION POSTS
 
