@@ -1,3 +1,4 @@
+### AUTOMATION POSTS
 ```json
 {
   "nodes": [
