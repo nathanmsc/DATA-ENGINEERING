@@ -34,9 +34,9 @@ docker run -it --restart always --name ollama-server --hostname ollama-server -v
 ```
 
 #### N8N AUTOMATION JSON FILE
-```sh
-https://github.com/nathanmsc/DATA-ENGINEERING/edit/main/DOCKER/N8N/POSTS/automation.json
-```
+
+[https://github.com/nathanmsc/DATA-ENGINEERING/edit/main/DOCKER/N8N/POSTS/automation.json](https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/refs/heads/main/DOCKER/N8N/POSTS/automation.json)
+
 
 ### 🔑 Google API (Docs, Sheets, Writer, Calc)
 
