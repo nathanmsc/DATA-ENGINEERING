@@ -12,11 +12,11 @@
 
 * Google Drive API → Integração com:
 
-** Google Docs (documentos de briefing, rascunhos de postagens)
+* * Google Docs (documentos de briefing, rascunhos de postagens)
 
-** Google Sheets (planejamento de calendário de postagens)
+* * Google Sheets (planejamento de calendário de postagens)
 
-** Google Writer & Calc (edição colaborativa de conteúdo)
+* * Google Writer & Calc (edição colaborativa de conteúdo)
 
 ### AUTOMATION POSTS
 
