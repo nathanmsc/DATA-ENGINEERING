@@ -33,7 +33,26 @@ docker run -it --restart always --name n8n-server --hostname n8n-server -e GENER
 docker run -it --restart always --name ollama-server --hostname ollama-server -v setup:/home/ollama --net network-net --ip 172.19.0.3 -p 5678:5678 -d mindsetcloud/ollama:latest
 ```
 
-* [N8N AUTOMATION](https://github.com/nathanmsc/DATA-ENGINEERING/edit/main/DOCKER/N8N/POSTS/automation.json)
+#### N8N AUTOMATION JSON FILE
+```sh
+https://github.com/nathanmsc/DATA-ENGINEERING/edit/main/DOCKER/N8N/POSTS/automation.json
+```
+
+### 🔑 Google API (Docs, Sheets, Writer, Calc)
+
+* Criar um projeto no Google Cloud Console
+
+  * Ativar as APIs:
+
+     * Google Drive API
+
+     * Google Docs API
+
+     * Google Sheets API
+
+ * Criar credenciais OAuth e importar no n8n
+
+ * Conectar nodes do n8n às contas do Google
 
 ### REFERENCES
 
