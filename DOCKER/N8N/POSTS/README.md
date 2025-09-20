@@ -19,7 +19,19 @@
   * Google Writer & Calc (edição colaborativa de conteúdo)
   
 
-### AUTOMATION POSTS
+### STEPS
+
+#### Build N8N Container
+
+```sh
+docker run -it --restart always --name n8n-server --hostname n8n-server -e GENERIC_TIMEZONE="America/Sao_Paulo" -v volume:/home/node/.n8n --net network-net --ip 172.19.0.2 -p 5678:5678 -d n8nio/n8n:latest
+```
+
+#### Build Ollama Container
+
+```sh
+docker run -it --restart always --name ollama-server --hostname ollama-server -v setup:/home/ollama --net network-net --ip 172.19.0.3 -p 5678:5678 -d mindsetcloud/ollama:latest
+```
 
 * [N8N AUTOMATION](https://github.com/nathanmsc/DATA-ENGINEERING/edit/main/DOCKER/N8N/POSTS/automation.json)
 
