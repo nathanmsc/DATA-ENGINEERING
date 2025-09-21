@@ -61,3 +61,4 @@ docker run -it --restart always --name ollama-server --hostname ollama-server -v
 * [Generate free images](https://www.youtube.com/watch?v=Ic5BRW_nLok)
 * [Janus Multimodal](https://www.youtube.com/watch?v=8fNm6LLZ5WY)
 * [Instagram Graph API](https://www.youtube.com/watch?v=t5ZgBLn3S3I)
+* [N8N Graph API Integration](https://www.youtube.com/watch?v=fabfLv0ooEw)
