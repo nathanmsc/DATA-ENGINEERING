@@ -54,6 +54,11 @@ docker run -it --restart always --name ollama-server --hostname ollama-server -v
 
   * Conectar nodes do n8n às contas do Google
 
+### LOCAL LLM INTEGRATION
+
+<img width="671" height="347" alt="image" src="https://github.com/user-attachments/assets/8b6ddec2-dd16-4949-a6c8-4efaedc1b765" />
+
+
 ### REFERENCES
 
 * [FREE AI Images Generation N8n Automation](https://www.youtube.com/watch?v=qeYgROvh1gY)
