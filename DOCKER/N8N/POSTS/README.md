@@ -64,5 +64,3 @@ docker run -it --restart always --name ollama-server --hostname ollama-server -v
 * [N8N Graph API Integration](https://www.youtube.com/watch?v=tG-46atwTHs)
 * [Graph API Token](https://www.youtube.com/watch?v=fabfLv0ooEw)
 * [Instagram N8N](https://www.youtube.com/watch?v=ll9ft5k8NS4)
-
-* 
