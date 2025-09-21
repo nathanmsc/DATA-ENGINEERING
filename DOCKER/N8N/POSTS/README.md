@@ -58,6 +58,10 @@ docker run -it --restart always --name ollama-server --hostname ollama-server -v
 
 <img width="671" height="347" alt="image" src="https://github.com/user-attachments/assets/8b6ddec2-dd16-4949-a6c8-4efaedc1b765" />
 
+### GOOGLE API INTEGRATION
+
+<img width="666" height="280" alt="image" src="https://github.com/user-attachments/assets/f10427d3-e974-400d-9eed-e84126f15941" />
+
 
 ### REFERENCES
 
