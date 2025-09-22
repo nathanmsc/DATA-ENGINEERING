@@ -55,11 +55,13 @@ docker run -it --restart always --name ollama-server --hostname ollama-server -v
 
      * Console: https://console.cloud.google.com/
      
-     * Selecione o mesmo projeto (dsafrisos).
+     * Selecione o mesmo projeto (projectname).
      
      * Vá em IAM & Admin → Service Accounts.
      
      * Clique em Criar Conta de Serviço.
+   
+     * Download credentials.json file
 
   * Conectar nodes do n8n às contas do Google
  
