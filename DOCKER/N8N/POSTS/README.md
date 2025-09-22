@@ -79,7 +79,13 @@ https://console.cloud.google.com/welcome?project=projectname
 ```
 
 * modify local url to public url
+
 <img width="666" height="280" alt="image" src="https://github.com/user-attachments/assets/f10427d3-e974-400d-9eed-e84126f15941" />
+
+* url de redirecionamento
+
+<img width="431" height="329" alt="image" src="https://github.com/user-attachments/assets/fd0d1ea6-5508-49e0-8d93-6356216bc129" />
+
 
 ### INSTAGRAN GRAPH API
 
