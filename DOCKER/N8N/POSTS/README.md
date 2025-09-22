@@ -37,7 +37,6 @@ docker run -it --restart always --name ollama-server --hostname ollama-server -v
 
 [https://github.com/nathanmsc/DATA-ENGINEERING/edit/main/DOCKER/N8N/POSTS/automation.json](https://raw.githubusercontent.com/nathanmsc/DATA-ENGINEERING/refs/heads/main/DOCKER/N8N/POSTS/automation.json)
 
-
 ### 🔑 Google API (Docs, Sheets)
 
 * Criar um projeto no Google Cloud Console
@@ -50,10 +49,20 @@ docker run -it --restart always --name ollama-server --hostname ollama-server -v
 
      * Google Sheets API
 
-  * Criar credenciais OAuth e importar no n8n
+  * Criar credenciais OAuth
+    
+     * Crie uma Service Account no Google Cloud Console
+
+     * Console: https://console.cloud.google.com/
+     
+     * Selecione o mesmo projeto (dsafrisos).
+     
+     * Vá em IAM & Admin → Service Accounts.
+     
+     * Clique em Criar Conta de Serviço.
 
   * Conectar nodes do n8n às contas do Google
-
+ 
 ### LOCAL LLM INTEGRATION
 
 <img width="671" height="347" alt="image" src="https://github.com/user-attachments/assets/8b6ddec2-dd16-4949-a6c8-4efaedc1b765" />
