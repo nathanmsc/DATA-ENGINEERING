@@ -67,5 +67,6 @@ source .venv/bin/activate
 ### CREW RUN
 ```sh
 crewai install
-crewai run
+crewai run # or uv run crewai run
 ```
+
