@@ -7,3 +7,28 @@ cd app
 uv venv
 source .venv/bin/activate
 ```
+
+### INIT PROJECT
+
+```sh
+uv tool install crewai
+crewai create crew app
+```
+### PROJECT
+```sh
+.
+├── knowledge
+├── src
+│   ├── README.md
+│   └── app
+│       ├── __init__.py
+│       ├── config
+│       │   ├── agents.yaml
+│       │   └── tasks.yaml
+│       ├── crew.py
+│       ├── main.py
+│       └── tools
+│           └── __init__.py
+└── tests
+```
+
