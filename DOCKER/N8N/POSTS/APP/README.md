@@ -58,6 +58,12 @@ type = "crew"
 └── tests
 ```
 
+### uv venv
+```sh
+uv venv
+source .venv/bin/activate
+```
+
 ### CREW RUN
 ```sh
 crewai install
