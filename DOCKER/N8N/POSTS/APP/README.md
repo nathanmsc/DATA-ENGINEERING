@@ -58,7 +58,8 @@ type = "crew"
 └── tests
 ```
 
-### RUN CREW
+### CREW RUN
 ```sh
+crewai install
 crewai run
 ```
