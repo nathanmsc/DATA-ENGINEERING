@@ -2,7 +2,7 @@ from crewai import Agent, Crew, Process, Task # type: ignore[import]
 from crewai.project import CrewBase, agent, crew, task # type: ignore[import]
 from crewai.agents.agent_builder.base_agent import BaseAgent # type: ignore[import]
 from typing import List
-from app.model.agents import Caption, Writter, Imager, Hashtags, Consolidator # type: ignore[import]
+from app.model.agents import Caption, Writer, Imager, Hashtags, Consolidator # type: ignore[import]
 import pydantic # type: ignore[import]
 
 @CrewBase
@@ -20,9 +20,9 @@ class App():
         )
     
     @agent
-    def writter_agent(self) -> Agent:
+    def writer_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['writter_agent'], # type: ignore[index]
+            config=self.agents_config['writer_agent'], # type: ignore[index]
             verbose=True,
         )
 
@@ -57,10 +57,10 @@ class App():
         )
     
     @task
-    def writter_task(self) -> Task:
+    def writer_task(self) -> Task:
         return Task(
-            config=self.tasks_config['writter_task'], # type: ignore[index]
-            output_model=Writter,
+            config=self.tasks_config['writer_task'], # type: ignore[index]
+            output_model=Writer,
             output_file='post.txt'
         )
     @task
@@ -90,9 +90,6 @@ class App():
     @crew
     def crew(self) -> Crew:
         """Creates the App crew"""
-        # To learn how to add knowledge sources to your crew, check out the documentation:
-        # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
-
         return Crew(
             agents=self.agents, # Automatically created by the @agent decorator
             tasks=self.tasks, # Automatically created by the @task decorator

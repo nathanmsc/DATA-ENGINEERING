@@ -19,7 +19,7 @@ class Caption(BaseModel):
         arbitrary_types_allowed = True
         validate_assignment = True
 
-class Writter(BaseModel):
+class Writer(BaseModel):
     caption: str = Field(Description='Legenda do post', max_length=2200)
     
     @field_validator("caption", mode="before")

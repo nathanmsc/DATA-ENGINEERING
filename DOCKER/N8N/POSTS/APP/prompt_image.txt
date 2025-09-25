@@ -1,3 +1,5 @@
-{
-  "prompt_image": "[Imagem de alta qualidade que mostre um resultado de uma visita ao dentista com um sorriso radiante. Descrição: 'Saúde bucal e bem-estar geral', estilo visual, narrativa e pessoal, focado na comunidade e imagens únicas impactantes.']"
-}
+{"strategy_brief": "{\"topic\":\"Desenvolvimento de texto para IA\",\"content_guidelines\":{\"audience\":["25-45 anos",\"pessoas entre 25-45 anos\"],\"platforms\":["Instagram\",\"Facebook\"],"voice\":\"Voice de autora personalizada para saúde bucal com foco no bem estar do paciente\"}"}
+
+{"visual_concept": "{\"image_type\":\"photographie\",\"image_caption\":\"Um detalhe fotográfico que destaque o sorriso enquanto o paciente realiza o tratamento dentário, destacando sua confiança em si mesmo.\"}"
+
+{"prompt_image": "Um detalhe fotográfico que destaque o sorriso enquanto o paciente realiza o tratamento dentário, destacando sua confiança em si mesmo."}

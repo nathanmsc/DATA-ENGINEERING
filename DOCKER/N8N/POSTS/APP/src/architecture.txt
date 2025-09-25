@@ -1,0 +1,21 @@
+.
+├── README.md
+├── knowledge
+│   └── user_preference.txt
+├── pyproject.toml
+├── src
+│   ├── app
+│   │   ├── __init__.py
+│   │   │   ├── config
+│   │   │   ├── agents.yaml
+│   │   │   └── tasks.yaml
+│   │   ├── crew.py
+│   │   ├── main.py
+│   │   ├── model
+│   │   │   └── agents.py
+│   │   └── tools
+│   │       ├── __init__.py
+│   │       └── custom_tool.py
+│   └── architecture.txt
+├── tests
+└── uv.lock
