@@ -1,0 +1,167 @@
+caption_task:
+  description: |
+    Analise todos os inputs (Topic, Description, Prompt, Voice, Audience, Platform)
+    e distribua diretrizes específicas.
+
+    Com base apenas em Topic, Target Audience, Voice e na plataforma de destino
+    (Platform: Instagram ou Facebook), gere exatamente 1 conceito criativo de conteúdo.
+    Concentre-se na mensagem central, no ângulo ou no gancho.
+    O formato sugerido DEVE ser "Single Image".
+
+    Otimização para Plataforma: Ajuste explicitamente o tipo e o ângulo do conceito para a
+    plataforma especificada.
+
+    Instagram: Visual, com narrativa, pessoal, focado na comunidade, imagens únicas impactantes.
+
+    Facebook: Visuais com legendas explicativas um pouco mais longas, que incentivem
+    compartilhamentos e comentários, também baseados em imagem única.
+
+    Originalidade: Evite clichês comuns (como citações básicas), a menos que o input
+    realmente os sugira. Explore ângulos como:
+
+    representações visuais marcantes de dados
+    imagens metafóricas
+    perguntas instigantes apresentadas visualmente
+    momentos de bastidores
+    mensagens-chave destacadas graficamente
+
+    Sugestão de Formato: O formato DEVE ser "Single Image".
+    O CONCEITO é o principal, o formato é fixo.
+  expected_output: >
+    "IMPORTANTE: Forneça a saída estritamente no formato JSON abaixo, sem texto adicional ou explicações fora da estrutura JSON."
+    {
+      "strategy_brief": "[texto do briefing estratégico para publicação]",
+      "content_guidelines": "[diretrizes de conteúdo detalhadas]",
+      "visual_concept": "[descrição do conceito visual principal]"
+    }
+  example: |
+      {
+        "strategy_brief": "Crie uma postagem envolvente no Instagram sobre saúde bucal para jovens adultos, usando um tom amigável e acessível. Destaque a importância de check-ups regulares e da higiene oral.",
+        "content_guidelines": "Use linguagem simples, inclua um call-to-action e foque nos benefícios para o paciente. Evite jargão técnico.",
+        "visual_concept": "Uma imagem vibrante de um jovem adulto sorrindo com confiança, com instrumentos odontológicos sutilmente incluídos ao fundo para enfatizar o cuidado dental."
+      }
+
+  inputs:
+    - name: Topic
+      type: string
+      description: "Tema principal do post"
+    - name: Description
+      type: string
+      description: "Descrição detalhada do conteúdo"
+    - name: prompt_image
+      type: string
+      description: "Prompt base para imagem"
+    - name: Voice
+      type: string
+      description: "Tom de voz desejado"
+    - name: Audience
+      type: string
+      description: "Público-alvo específico"
+    - name: Platform
+      type: string
+      description: "Plataforma de publicação"
+  agent: caption_agent
+
+writter_task:
+  description: >
+    "Criar uma frase curta e engajadora de até 2048 caracteres para o post,
+    mantendo coerência com o tema e adequação ao público."
+  expected_output: >
+    IMMPORTANTE: Forneça a saída estritamente no formato JSON abaixo, sem texto adicional ou explicações fora da estrutura JSON.
+    {
+      "post_content": "[Conteúdo para publicação]"
+    }
+  example: |
+      {
+        "post_content": "✨ Sorriso radiante, coração leve! Porque quando você cuida do seu sorriso, tudo ao redor brilha junto. 😁🌿"
+      }
+
+  negative_prompt:
+    "Do NOT include any other text, formatting, or explanation outside the JSON structure."
+  inputs:
+    - name: strategy_brief
+      type: object
+      description: "Briefing estratégico do master"
+    - name: content_guidelines
+      type: object
+      description: "Diretrizes do master"
+    - name: visual_concept
+      type: object
+      description: "Conceito visual do master"
+  context: [caption_task] 
+  agent: writter_agent
+
+hashtag_task:
+  description: >
+    "Criar lista estratégica de hashtags relevantes e otimizadas
+    para o tema e plataforma específica."
+  expected_output: >
+    "hashtags: [lista de hashtags separadas por espaço]"
+  example: |
+      {
+        "hashtags": "#sorriso #odontologia #saudebucal #dentista #tratamentodental #cuidadoscomosdentes #odontologiacomamor❤️"
+      }
+  inputs:
+    - name: strategy_brief
+      type: object
+      description: "Briefing estratégico do master"
+    - name: content_guidelines
+      type: object
+      description: "Diretrizes do master"
+    - name: visual_concept
+      type: object
+      description: "Conceito visual do master"
+  context: [caption_task] 
+  agent: hashtag_agent
+
+imager_task:
+  description: >
+    "Criar prompt detalhado em português para geração de imagem
+    que complemente perfeitamente o conceito do post."
+  expected_output: >
+    IMMPORTANTE: Forneça a saída estritamente no formato JSON abaixo, sem texto adicional ou explicações fora da estrutura JSON.
+    {
+      "prompt_image": "[descrição detalhada para geração da imagem via IA (ex: Midjourney, replicate, etc.)]"
+    }
+  example: |
+      {
+      "prompt_image": "Image of a patient smiling while receiving dental treatment, highlighting their confidence in themselves."
+      }
+  negative_prompt:
+    "Do NOT include any other text, formatting, or explanation outside the JSON structure."
+  inputs:
+    - name: visual_concept
+      type: object
+      description: "Conceito visual do master"
+  context: [caption_task] 
+  agent: imager_agent
+
+consolidator_task:
+  description: >
+    "Consolidar todos os outputs dos agentes workers em uma saída final
+    estruturado pronto para uso."
+  expected_output: >
+    IMPORTANT: Forneça a saída estritamente no formato JSON abaixo, sem texto adicional ou explicações fora da estrutura JSON.
+    {
+      "post_content": "[legenda completa do post]"
+      "hashtag": "[lista de hashtags]"
+      "prompt_image": "[prompt detalhado para geração de imagem por IA]"
+    }
+  example: |    
+      {
+        "post_content": "✨ Sorriso radiante, coração leve! Porque quando você cuida do seu sorriso, tudo ao redor brilha junto. 😁🌿",
+        "Hashtag": "#sorriso #odontologia #saudebucal #dentista #tratamentodental #cuidadoscomosdentes #odontologiacomamor❤️",
+        "prompt_image": "Image of a patient smiling while receiving dental treatment, highlighting their confidence in themselves."
+      }
+  inputs:
+    - name: post_content
+      type: string
+      description: "Output da postagem do writer_task"
+    - name: hashtags
+      type: string
+      description: "Output das hashtags do hashtag_task"
+    - name: prompt_image
+      type: string
+      description: "Output da prompt de imagem do image_task"
+  context: [imager_task, writter_task, hashtag_task] 
+  agent: consolidator_agent

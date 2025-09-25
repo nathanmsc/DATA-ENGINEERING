@@ -18,8 +18,13 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
+        'Topic': 'Sorriso radiante, coração leve! Transformando sorrisos, odontologia com amor.',
+        'Description': 'Um detalhe fotográfico que destaque o sorriso enquanto o paciente realiza o tratamento dentário, destacando sua confiança em si mesmo.', 
+        'Prompt_image': 'Image of a patient smiling while on dental care, highlighting their confidence in themselves.', 
+        'Voice': 'Descolado e acessível',
+        'Audience': 'Pessoas entre 25-45 anos, que valorizam saúde bucal e estética, buscando dicas práticas e inspiração para um sorriso saudável.', 
+        'Platform': 'Instagram', 
+        'Current_year': str(datetime.now().year)
     }
     
     try:
@@ -28,6 +33,10 @@ def run():
         raise Exception(f"An error occurred while running the crew: {e}")
 
 
+
+###################################################################################
+# The following functions are examples of how you can use the crew programmatically
+# to train, replay or test it. You can remove them if you don't need them.
 def train():
     """
     Train the crew for a given number of iterations.

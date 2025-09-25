@@ -1,42 +1,39 @@
 import requests
 import json
 import instructor
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, Field
+from crewai import Agent, Task, Crew, Process   # <- certo
 
-'''class Person(BaseModel):
-    name: str
-    age: int
+
+class Person(BaseModel):
+    name: str = Field(description="The person's full name")
+    age: int = Field(description="The person's age in years")
 
     @field_validator("age", mode="before")
     def parse_age(cls, v):
         return int(v)
-
     
-
-client = instructor.from_provider("ollama/llama3.2:1b")
-
-user = client.chat.completions.create(
-    response_model=Person,
-    messages=[
-        {"role": "user", "content": "John Doe is 30 years old."}
-    ]
-)
-
-print(f"Customer name: {user.name}, age: {user.age}")'''
-
-# Multi-agent workflow example
-from crewai import Agent, Task, Crew, Process   # <- certo
-
-
 class ResearchData(BaseModel):
-    topic: str
-    findings: list[str]
+    topic: str = Field(description="The research topic")
+    findings: list[str] = Field(description="A list of research findings")
+    
+    @field_validator("findings", mode="before")
+    def parse_findings(cls, v):
+        if isinstance(v, str):
+            return [finding.strip() for finding in v.split(",")]
+        return v
 
 class Report(BaseModel):
-    topic: str
-    analysis: str
-    recommendations: list[str]
+    topic: str = Field(description="The report topic")
+    analysis: str = Field(description="A detailed analysis of the research findings")
+    recommendations: list[str] = Field(description="A list of actionable recommendations")
 
+    @field_validator("recommendations", mode="before")
+    def parse_recommendations(cls, v):
+        if isinstance(v, str):
+            return [rec.strip() for rec in v.split(",")]
+        return v
+    
 researcher = Agent(
     role="researcher",
     goal="Coletar fatos sobre um tópico",
@@ -67,7 +64,17 @@ task2 = Task(
 
 crew = Crew(tasks=[task1, task2])
 
+    
 client = instructor.from_provider("ollama/llama3.2:1b")
+
+user = client.chat.completions.create(
+    response_model=Person,
+    messages=[
+        {"role": "user", "content": "John Doe is 30 years old."}
+    ]
+)
+
+print(f"Customer name: {user.name}, age: {user.age}")
 
 # Execução
 research_result = client.chat.completions.create(
@@ -86,37 +93,3 @@ report_result = client.chat.completions.create(
 )
 
 print(report_result.analysis)
-
-
-   
-''"""def query_llm(model: str, prompt: str):
-    '''
-    Send prompt to a locally running llm model.
-    Requires the Ollama server to be running:
-        llm run <model>
-    '''
-    
-    url = 'http://localhost:11434/api/generate'
-
-    payload = {
-        'model': model,
-        'prompt': prompt,
-        'stream': False,
-        'temperature': 0.7
-    }
-
-    response = requests.post(url, json=payload)
-    response = raise_for_status()
-    return data.get('response', '')
-
-
-def main():
-    model = 'llama.3.2:1b'
-    prompt = str(input('Prompt: '))
-    reply = query_llm(model, prompt)
-    print('Model reply\n', reply)
-
-
-if __name__ == "__main__":
-    main()
-"""''

@@ -1,0 +1,3 @@
+{
+  "prompt_image": "[Imagem de alta qualidade que mostre um resultado de uma visita ao dentista com um sorriso radiante. Descrição: 'Saúde bucal e bem-estar geral', estilo visual, narrativa e pessoal, focado na comunidade e imagens únicas impactantes.']"
+}
