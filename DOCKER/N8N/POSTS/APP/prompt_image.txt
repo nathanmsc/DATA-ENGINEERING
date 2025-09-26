@@ -1,5 +1,1 @@
-{"strategy_brief": "{\"topic\":\"Desenvolvimento de texto para IA\",\"content_guidelines\":{\"audience\":["25-45 anos",\"pessoas entre 25-45 anos\"],\"platforms\":["Instagram\",\"Facebook\"],"voice\":\"Voice de autora personalizada para saúde bucal com foco no bem estar do paciente\"}"}
-
-{"visual_concept": "{\"image_type\":\"photographie\",\"image_caption\":\"Um detalhe fotográfico que destaque o sorriso enquanto o paciente realiza o tratamento dentário, destacando sua confiança em si mesmo.\"}"
-
-{"prompt_image": "Um detalhe fotográfico que destaque o sorriso enquanto o paciente realiza o tratamento dentário, destacando sua confiança em si mesmo."}
+{"prompt_image": "Foto de um paciente saindo da clínica sorridente, transmitindo segurança e autoestima após o tratamento odontológico com tom de voz amigável e inspirador para uma audiência adulta no Instagram"}}

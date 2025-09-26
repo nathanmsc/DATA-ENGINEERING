@@ -1,9 +1,12 @@
+import pydantic # type: ignore[import]
+from typing import List
 from crewai import Agent, Crew, Process, Task # type: ignore[import]
 from crewai.project import CrewBase, agent, crew, task # type: ignore[import]
 from crewai.agents.agent_builder.base_agent import BaseAgent # type: ignore[import]
-from typing import List
 from app.model.agents import Caption, Writer, Imager, Hashtags, Consolidator # type: ignore[import]
-import pydantic # type: ignore[import]
+from app.tools.custom_tool import GetNextPostTool, GetRandomPostTool # type: ignore[import]
+
+
 
 @CrewBase
 class App():
@@ -12,10 +15,14 @@ class App():
     agents: List[BaseAgent]
     tasks: List[Task]
 
+    get_random_post_tool = GetRandomPostTool()
+    get_next_post_tool = GetNextPostTool()
+
     @agent
     def caption_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['caption_agent'], # type: ignore[index]
+            tools=[self.get_random_post_tool],
             verbose=True,
         )
     
@@ -63,6 +70,7 @@ class App():
             output_model=Writer,
             output_file='post.txt'
         )
+    
     @task
     def imager_task(self) -> Task:
         return Task(

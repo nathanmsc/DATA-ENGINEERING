@@ -19,13 +19,29 @@ caption_task:
 
   expected_output: |
     OBRIGATÓRIO - RETORNE EXCLUSIVAMENTE ESTE FORMATO JSON:
-    {"strategy_brief": "texto_do_briefing", "content_guidelines": "diretrizes_detalhadas", "visual_concept": "descricao_conceito_visual"}
+    {
+      "strategy_brief": "texto_do_briefing", 
+      "content_guidelines": "diretrizes_detalhadas", 
+      "visual_concept": "descricao_conceito_visual",
+      "topic": "texto_do_assunto_principal", 
+      "description": "frase_que_descreve_o_topico", 
+      "prompt_image": "descricao_detalhada_para_geracao_de_imagem_por_ia", 
+      "voice": "tom_de_voz_ou_estilo_de_escrita", 
+      "audience": "publico_alvo", 
+      "platform": "plataforma_de_publicacao"
+    }
 
   example_output: |
     {
       "strategy_brief": "Crie uma postagem envolvente no Instagram sobre saúde bucal para jovens adultos, usando um tom amigável e acessível. Destaque a importância de check-ups regulares e da higiene oral.", 
       "content_guidelines": "Use linguagem simples, inclua um call-to-action e foque nos benefícios para o paciente. Evite jargão técnico.", 
       "visual_concept": "Uma imagem vibrante de um jovem adulto sorrindo com confiança, com instrumentos odontológicos sutilmente incluídos ao fundo para enfatizar o cuidado dental."
+      "topic": "Importância da Saúde Bucal", 
+      "description": "Foto detalhada de uma criança usando fio dental com supervisão de um adulto, reforçando o hábito desde cedo.", 
+      "prompt_image": "Graphic illustration with toothbrush, dental floss, and calendar icons, highlighting Escovação do jeito certo", 
+      "voice": "Amigável e didático", 
+      "audience": "Jovens adultos e pais", 
+      "platform": "Instagram"
     }
 
   strict_constraints:
@@ -39,11 +55,11 @@ caption_task:
 writer_task:
   description: |
     INSTRUÇÃO ÚNICA E RESTRITA:
-    Crie UMA frase engajadora de no máximo 3072 caracteres baseada nos inputs recebidos.
+    Crie UMA frase engajadora de no máximo 2048 caracteres baseada nos inputs recebidos.
     Retorne APENAS o JSON especificado, SEM qualquer texto adicional.
     
     REGRAS RÍGIDAS:
-    - Máximo 3072 caracteres na frase
+    - Máximo 2048 caracteres na frase
     - Retorne SOMENTE o JSON válido
     - NÃO adicione explicações
     - NÃO adicione comentários
@@ -53,12 +69,12 @@ writer_task:
   expected_output: |
     OBRIGATÓRIO - RETORNE EXCLUSIVAMENTE ESTE FORMATO JSON:
     {
-      "post_content": "frase_de_ate_3072_caracteres"}
+      "post_content": "frase_de_ate_2048_caracteres"}
 
   validation_rules:
     - format: "strict_json_only"
     - required_keys: ["post_content"]
-    - max_characters: 3072
+    - max_characters: 2048
     - forbidden_additions: ["explanatory_text", "markdown", "comments"]
     - response_deviation: "forbidden"
 
@@ -69,7 +85,7 @@ writer_task:
 
   strict_constraints:
     - response_format: "json_only"
-    - character_limit: 3072
+    - character_limit: 2048
     - additional_text: "forbidden"
     - explanations: "forbidden"
 
@@ -187,7 +203,7 @@ consolidator_task:
     {
       "post_content": "✨ Sorriso radiante, coração leve! Porque quando você cuida do seu sorriso, tudo ao redor brilha junto. 😁🌿", 
       "hashtags": "#sorriso #odontologia #saudebucal #dentista #tratamentodental #cuidadoscomosdentes #odontologiacomamor", 
-      "prompt_image": "Uma pessoa sorridente em destaque, com um sorriso radiante e contagiante, transmitindo felicidade e leveza."
+      "prompt_image": "Image of a patient smiling while on dental care, highlighting their confidence in themselves."
     }
 
   strict_constraints:
@@ -218,6 +234,6 @@ global_constraints:
     - content_limits: "respect character/item limits"
     - format_compliance: "exact format match required"
 
-enforcement_level: "maximum"
-tolerance: "zero"
-fallback_action: "reject_and_retry"
+  enforcement_level: "maximum"
+  tolerance: "zero"
+  fallback_action: "reject_and_retry"

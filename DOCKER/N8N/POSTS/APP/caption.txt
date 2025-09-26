@@ -1,5 +1,17 @@
-{"strategy_brief": "{\"topic\":\"Sorriso radiante, coração leve\",""content_guidelines\":{\"audience\":["25-45 anos",\"pessoas entre 25-45 anos\"],\"platforms\":["Instagram\",\"Facebook\"],"voice\":\"Voice de autora personalizada para saúde bucal com foco no bem estar do paciente\"}"}
+```
+{
+  "strategy_brief": "Analisar os inputs de forma estratégica e detalhada",
+  "content_guidelines": "{\"topic\": \"Saúde dos dentes\", \"description\": \"Estrategista sênior especializado em campanhas que promovem a saúde dos dentes com visão holística do processo criativo focado no bem estar do paciente\"}",
+  "visual_concept": "{\"topic\": \"Sorriso de confiança\", \"description\": \"Foto do paciente saindo da clínica sorridente, transmitindo segurança e autoestima após o tratamento odontológico\"}",
+  "topic": "\"Saúde dos dentes\", \"estratégista sênior especializado em campanhas que promovem a saúde dos dentes com visão holística do processo criativo focado no bem estar do paciente\"",
+  "description": „Estrategista sênior especializado em campanhas que promovem a saúde dos dentes com visão holística do processo criativo focado no bem estar do paciente""",
+  "prompt_image": „Foto de um paciente saindo da clínica sorridente, transmitindo segurança e autoestima após o tratamento odontológico‹https://www.instagram.com/p/1234567890/›“,
+  "voice": "\"Tom de voz amigável e inspirador\"",
+  "audience": "\"Adultos\"`,
+  "platform": „Instagram``
+}
+```
 
-{"visual_concept": "{\"image_type\":\"photographie\",\"image_caption\":\"Um detalhe fotográfico que destaque o sorriso enquanto o paciente realiza o tratamento dentário, destacando sua confiança em si mesmo.\"}"}
-
-{"image_data":{"width\":200,"height\":300,\"metadata\":{\"date_taken\":\"2023-01-01T10:00:00.000Z\"},\"file_name\":\"sorriso_riande_coracao_leve_1.jpg\"}}
+Thought: Eu analisaria os inputs de forma estratégica e detalhada
+Action: execute a análise dos inputs (Topic, Description, prompt_image, Voice, Audience, Platform)
+Observação: o resultado da análise é um JSON válido com as três chaves especificadas.

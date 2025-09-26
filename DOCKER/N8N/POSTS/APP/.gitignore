@@ -1,3 +1,9 @@
 .env
 __pycache__/
 .DS_Store
+credentials.json
+config/.env
+config/.env.local
+config/.env.production
+logs/
+*.log

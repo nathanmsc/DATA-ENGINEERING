@@ -1,3 +1,5 @@
+```
 {
-  "hashtags": "#smilewithconfidence #oralhealthmatters #odontologia #bemestarodonto #coracao #sorrisoradiante"
+  "hashtags": "#saude-dentes #odontoologia #bemestar"
 }
+```
