@@ -1,17 +1,13 @@
 ```
 {
-  "strategy_brief": "Analisar os inputs de forma estratégica e detalhada",
-  "content_guidelines": "{\"topic\": \"Saúde dos dentes\", \"description\": \"Estrategista sênior especializado em campanhas que promovem a saúde dos dentes com visão holística do processo criativo focado no bem estar do paciente\"}",
-  "visual_concept": "{\"topic\": \"Sorriso de confiança\", \"description\": \"Foto do paciente saindo da clínica sorridente, transmitindo segurança e autoestima após o tratamento odontológico\"}",
-  "topic": "\"Saúde dos dentes\", \"estratégista sênior especializado em campanhas que promovem a saúde dos dentes com visão holística do processo criativo focado no bem estar do paciente\"",
-  "description": „Estrategista sênior especializado em campanhas que promovem a saúde dos dentes com visão holística do processo criativo focado no bem estar do paciente""",
-  "prompt_image": „Foto de um paciente saindo da clínica sorridente, transmitindo segurança e autoestima após o tratamento odontológico‹https://www.instagram.com/p/1234567890/›“,
-  "voice": "\"Tom de voz amigável e inspirador\"",
-  "audience": "\"Adultos\"`,
-  "platform": „Instagram``
+  "strategy_brief": "Estrategista sênior especializado em campanhas que promovem a saúde dos dentes com visão holística do processo criativo focado no bem estar do paciente.",
+  "content_guidelines": "analisar os inputs fornecidos e retorne um JSON válido com as chaves strategy_brief, content_guidelines, visual_concept e topic.",
+  "visual_concept": "uma imagem moderna de um equipamento odontológico em uso que transmita confiança na inovação e qualidade do tratamento.",
+  "topic": "um sorriso abre portas",
+  "description": "foto moderna do equipamento odontológico em uso, transmitindo confiança na inovação e qualidade do tratamento.",
+  "prompt_image": "descricao_detalhada_para_geracao_de_imagem_por_ia", 
+  "voice": "tom_de_voz_ou_estilo_de_escrita",
+  "audience": "pacifico",
+  "platform": "instagram"
 }
 ```
-
-Thought: Eu analisaria os inputs de forma estratégica e detalhada
-Action: execute a análise dos inputs (Topic, Description, prompt_image, Voice, Audience, Platform)
-Observação: o resultado da análise é um JSON válido com as três chaves especificadas.

@@ -1,5 +1,3 @@
-```
 {
-  "hashtags": "#saude-dentes #odontoologia #bemestar"
+  "hashtags": "#sorrisodentoso #odontologia #saúdebemestar #analisadetendenciadigitais #hashtaganalise #odongonital #analisefuncional"
 }
-```

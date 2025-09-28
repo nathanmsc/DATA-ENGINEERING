@@ -1,4 +1,4 @@
-from app.tools.custom_tool import GetRandomPostTool
+from app.tools.googleapi import GetRandomPostTool
 from datetime import datetime
 
 class Inputs:

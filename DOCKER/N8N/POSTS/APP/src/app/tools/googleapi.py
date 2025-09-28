@@ -10,9 +10,6 @@ from typing import Type, Optional, Tuple, Dict, Any
 
 load_dotenv()
 
-SHEET_ID = os.getenv("SHEET_ID")
-WORKSHEET = os.getenv("WORKSHEET")
-
 class GoogleDriveClient:
     """Cliente interno para autenticação e acesso ao Google Sheets via gspread."""
 

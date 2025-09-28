@@ -2,7 +2,8 @@ import sys
 import warnings
 from datetime import datetime
 from app.crew import App
-from app.tools.custom_tool import GetRandomPostTool
+from app.tools.googleapi import GetRandomPostTool # type: ignore[import]
+from app.tools.instagramapi import InstagramPostTool # type: ignore[import]
 from app.utils.inputs import Inputs
 
 
@@ -10,6 +11,7 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 get_instructions = GetRandomPostTool()
 result = get_instructions._run()
+instagram_publish = InstagramPostTool()
 
 def run():
     """

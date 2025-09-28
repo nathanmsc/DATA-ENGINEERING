@@ -1,2 +1,3 @@
 {
-  "post_content": "uma boca suave e feliz, transmite confiança e segurança ao paciente"
+  "post_content": "Sorrisos dentais são mais do que apenas limpeza de dente, eles são uma parte importante da autoestima e bem-estar."
+}

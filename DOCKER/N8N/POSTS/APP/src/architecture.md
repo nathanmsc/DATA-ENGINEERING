@@ -1,3 +1,6 @@
+### ARCHITECTURE
+
+```bash
 .
 ├── README.md
 ├── knowledge
@@ -19,3 +22,4 @@
 │   └── architecture.txt
 ├── tests
 └── uv.lock
+```

@@ -4,7 +4,8 @@ from crewai import Agent, Crew, Process, Task # type: ignore[import]
 from crewai.project import CrewBase, agent, crew, task # type: ignore[import]
 from crewai.agents.agent_builder.base_agent import BaseAgent # type: ignore[import]
 from app.model.agents import Caption, Writer, Imager, Hashtags, Consolidator # type: ignore[import]
-from app.tools.custom_tool import GetNextPostTool, GetRandomPostTool # type: ignore[import]
+from app.tools.googleapi import GetNextPostTool, GetRandomPostTool # type: ignore[import]
+from app.tools.instagramapi import InstagramPostTool # type: ignore[import]
 
 
 
@@ -17,6 +18,7 @@ class App():
 
     get_random_post_tool = GetRandomPostTool()
     get_next_post_tool = GetNextPostTool()
+    instagram_post_tool = InstagramPostTool()
 
     @agent
     def caption_agent(self) -> Agent:
