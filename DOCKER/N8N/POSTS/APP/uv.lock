@@ -164,6 +164,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "crewai", extra = ["tools"] },
+    { name = "fastapi" },
     { name = "google-auth" },
     { name = "gspread" },
     { name = "instructor" },
@@ -174,6 +175,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "crewai", extras = ["tools"], specifier = ">=0.193.2,<1.0.0" },
+    { name = "fastapi", specifier = ">=0.117.1" },
     { name = "google-auth", specifier = ">=2.40.3" },
     { name = "gspread", specifier = ">=6.2.1" },
     { name = "instructor", specifier = ">=1.11.3" },

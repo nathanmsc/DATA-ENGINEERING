@@ -1,4 +1,4 @@
-from app.tools.googleapi import GetRandomPostTool
+from app.tools.googleapi import GetRandomPostTool # type: ignore[import]
 from datetime import datetime
 
 class Inputs:
@@ -16,6 +16,6 @@ class Inputs:
             'Voice': self.random_post_tool[1]['Voice'],
             'Audience': self.random_post_tool[1]['Audience'], 
             'Platform': self.random_post_tool[1]['Platform'], 
-            'Current_year': str(datetime.now().year)
+            'timestamp': str(datetime.now().today().timestamp()),
         }
         return inputs

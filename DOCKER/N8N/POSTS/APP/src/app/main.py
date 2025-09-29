@@ -1,65 +1,50 @@
 import sys
+import uvicorn # type: ignore[import]
 import warnings
-from datetime import datetime
 from app.crew import App
+from fastapi import FastAPI # type: ignore[import]
+from datetime import datetime
 from app.tools.googleapi import GetRandomPostTool # type: ignore[import]
 from app.tools.instagramapi import InstagramPostTool # type: ignore[import]
 from app.utils.inputs import Inputs
 
-
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
+
+app = FastAPI(title="CrewAI Instagram Poster", version="1.0.0")
 
 get_instructions = GetRandomPostTool()
 result = get_instructions._run()
 instagram_publish = InstagramPostTool()
 
-def run():
+@app.get("/publish_from_ia")
+async def publish_from_ia():
     """
-    Run the crew.
+    CrewAI Instagram Poster is running.
     """
     inputs = Inputs().get_radom_inputs()
     
     try:
-        App().crew().kickoff(inputs=inputs)
+        return App().crew().kickoff(inputs=inputs)
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
-
-
-def train():
+    
+@app.get("/get_radom_post")
+async def get_radom_post():
     """
-    Train the crew for a given number of iterations.
+    Instagram Poster is running.
     """
-    inputs = {
-        "topic": "AI LLMs",
-        'current_year': str(datetime.now().year)
-    }
-    try:
-        App().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
-
-    except Exception as e:
-        raise Exception(f"An error occurred while training the crew: {e}")
-
-def replay():
-    """
-    Replay the crew execution from a specific task.
-    """
-    try:
-        App().crew().replay(task_id=sys.argv[1])
-
-    except Exception as e:
-        raise Exception(f"An error occurred while replaying the crew: {e}")
-
-def test():
-    """
-    Test the crew execution and returns the results.
-    """
-    inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
-    }
+    inputs = Inputs().get_radom_inputs()
     
     try:
-        App().crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
-
+        return inputs
     except Exception as e:
-        raise Exception(f"An error occurred while testing the crew: {e}")
+        raise Exception(f"An error occurred while running the crew: {e}")
+    
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")
+
+
+
+
+

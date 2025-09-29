@@ -1,0 +1,13 @@
+```
+{
+  "strategy_brief": "Compreender o impacto do Pequeno cuidado",
+  "content_guidelines": "{\"hashtag_agent\": \"#SaúdeDentalEmBocados\", \"consolidator_agent\": \"\\(\"Hashtag: #SaudeDentariaEmBocados\\), Hashtag: #CuidadosDentaisEmCrianças\\), Hashtag: #ModoDeViverCorretamenteEmIdadeJovem\\),\\nConsolidator_agent\": \"Hashtag: Saúde, Hashtag: Dentes, Hashtag: ModaCriança\"}`,
+  "visual_concept": "{\"imager_agent\": \"Imagem detalhada de uma criança usando fio dental com adulto supervisionado\", \"amigável_e_didático\": \"Fundo branco, criança sorrindo, fio dental e adulto na frente\", \"comunidade**: \"Crianças rindo enquanto usam fios de dente\", \"fonte**: \"Corpo texto azul para o título, corpo texto amarelo para o subtítulo\"}`,
+  "topic": "\"Pequenos cuidados em crianças\"_",
+  "description": "\"Narrativa pessoal mostrando a importância do Pequeno cuidado na saúde dos dentes das crianças, com foco em comunidade e interação entre adultos e crianças\",\"`,
+  "prompt_image": "\"Amplificação visual para a narrativa escolhida: Criança usando fio dental com adulto supervisionado\\nFundo branco com criança sorrindo, fio dental e adulto na frente. Foco em comunidade e interação entre adultos e crianças\",\"`,
+  "voice": "\"Amigável e didático, pois se encaixa perfeitamente na narrativa escolhida para mostrar uma relação de apoio mútuo\",\"`,
+  "audience": „Crianças pequenas a adolescentes em idade escolar \"_\"`",
+  "platform": `"Instagram"`
+}
+```

@@ -8,7 +8,6 @@ from pydantic import BaseModel, Field # type: ignore
 
 load_dotenv()
 
-
 class InstagramClient:
     """Cliente para integração com a API do Instagram (via Facebook Graph API)."""
 
@@ -20,10 +19,8 @@ class InstagramClient:
         if not self.access_token or not self.endpoint or not self.page_id:
             raise ValueError("⚠️ Configurações do Instagram não encontradas no .env")
 
-    def post_media(self, image_url: str, caption: str) -> str:
-        """Cria e publica uma imagem no Instagram, retornando o ID da postagem final."""
-
-        # 1. Criar objeto de mídia
+    def create_media_object(self, image_url: str, caption: str) -> str:
+        """Cria um objeto de mídia no Instagram e retorna o ID do contêiner."""
         create_url = f"{self.endpoint}{self.page_id}/media"
         payload = {
             "image_url": image_url,
@@ -33,31 +30,26 @@ class InstagramClient:
         response = requests.post(create_url, data=payload)
         res_json = response.json()
 
-        if "id" not in res_json:
+        if "id" in res_json:
+            return res_json["id"]
+        else:
             raise Exception(f"Erro ao criar objeto de mídia: {res_json.get('error', 'Unknown error')}")
-
-        creation_id = res_json["id"]
-
-        # 2. Publicar objeto de mídia
-        publish_url = f"{self.endpoint}{self.page_id}/media_publish"
         
+    def publish_media(self, creation_id: str) -> str:
+        """Publica o objeto de mídia criado e retorna o ID da postagem."""
+        publish_url = f"{self.endpoint}{self.page_id}/media_publish"
         payload = {
             "creation_id": creation_id,
             "access_token": self.access_token
         }
-
-        #response = requests.post(publish_url, data=payload)
+        response = requests.post(publish_url, data=payload)
         res_json = response.json()
 
-        if "id" not in res_json:
+        if "id" in res_json:
+            return res_json["id"]
+        else:
             raise Exception(f"Erro ao publicar mídia: {res_json.get('error', 'Unknown error')}")
 
-        return res_json["id"]
-
-
-# -----------------------------
-# Tool unificada
-# -----------------------------
 
 class InstagramPostInput(BaseModel):
     """Parâmetros para criar e publicar um post no Instagram."""
@@ -72,13 +64,30 @@ class InstagramPostTool(BaseTool):
 
     def _run(self, image_url: str, caption: str) -> str:
         client = InstagramClient()
-        return client.post_media(image_url, caption)
+        return client.create_media_object(image_url, caption)
 
     async def _arun(self, image_url: str, caption: str) -> str:
         raise NotImplementedError("Execução assíncrona não implementada.")
        
+class PublishMediaInput(BaseModel):
+    """Parâmetros para publicar mídia no Instagram."""
+    creation_id: str = Field(..., description="ID do contêiner de mídia previamente criado.")
 
 
+class PublishMediaTool(BaseTool):
+    name: str = "publish_instagram_media"
+    description: str = "Publica uma mídia previamente criada no Instagram e retorna o ID da postagem."
+    args_schema: Type[BaseModel] = PublishMediaInput
+
+    def _run(self, creation_id: str) -> str:
+        client = InstagramClient()
+        return client.publish_media(creation_id)
+
+    async def _arun(self, creation_id: str) -> str:
+        raise NotImplementedError("Execução assíncrona não implementada.")
+
+
+# Exemplo de uso
 image_url = "https://www.w3schools.com/w3css/img_lights.jpg"  # URL da imagem a ser postada
 caption = '''DI Sorrisos – Transformando sorrisos!
 
@@ -88,11 +97,18 @@ caption = '''DI Sorrisos – Transformando sorrisos!
             📲 Siga: @disorrisos'''
 
 
-tool = InstagramPostTool()
+media = InstagramPostTool()
 
-publish = tool._run(
+container = media._run(
     image_url=image_url,
     caption=caption
 )
-print("Container criado:", publish)
+
+print("Container criado:", container)
+
+publish = PublishMediaTool()
+
+#post_id = publish._run(creation_id=container)
+
+#print("ID da postagem publicada:", post_id)
 

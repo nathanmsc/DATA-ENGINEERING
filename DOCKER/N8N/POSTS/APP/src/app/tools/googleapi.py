@@ -1,14 +1,12 @@
 import os
 import random
 import gspread
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv # type: ignore
 from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
 from functools import cached_property
 from google.oauth2.service_account import Credentials
 from typing import Type, Optional, Tuple, Dict, Any
-
-load_dotenv()
 
 class GoogleDriveClient:
     """Cliente interno para autenticação e acesso ao Google Sheets via gspread."""

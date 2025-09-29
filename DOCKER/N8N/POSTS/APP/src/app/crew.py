@@ -8,7 +8,6 @@ from app.tools.googleapi import GetNextPostTool, GetRandomPostTool # type: ignor
 from app.tools.instagramapi import InstagramPostTool # type: ignore[import]
 
 
-
 @CrewBase
 class App():
     """App crew"""
@@ -34,7 +33,6 @@ class App():
             config=self.agents_config['writer_agent'], # type: ignore[index]
             verbose=True,
         )
-
     
     @agent
     def imager_agent(self) -> Agent:
