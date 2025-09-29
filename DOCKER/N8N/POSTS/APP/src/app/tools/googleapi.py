@@ -1,12 +1,17 @@
 import os
 import random
-import gspread
-from dotenv import load_dotenv, find_dotenv # type: ignore
-from crewai.tools import BaseTool
-from pydantic import BaseModel, Field
+import gspread # type: ignore
+from PIL import Image
+from io import BytesIO
+from crewai.tools import BaseTool # type: ignore
+from pydantic import BaseModel, Field # type: ignore
 from functools import cached_property
-from google.oauth2.service_account import Credentials
+from googleapiclient.discovery import build # type: ignore
+from dotenv import load_dotenv, find_dotenv # type: ignore
 from typing import Type, Optional, Tuple, Dict, Any
+from googleapiclient.http import MediaIoBaseDownload # type: ignore
+from google.oauth2.service_account import Credentials # type: ignore
+
 
 class GoogleDriveClient:
     """Cliente interno para autenticação e acesso ao Google Sheets via gspread."""
@@ -28,6 +33,22 @@ class GoogleDriveClient:
     @cached_property
     def client(self):
         return gspread.authorize(self.credentials)
+    
+    @cached_property
+    def drive_service(self):
+        return build("drive", "v3", credentials=self.credentials)
+
+
+    def download_file(self, file_id: str) -> BytesIO:
+        """Baixa um arquivo do Google Drive e retorna como BytesIO"""
+        request = self.drive_service.files().get_media(fileId=file_id)
+        fh = BytesIO()
+        downloader = MediaIoBaseDownload(fh, request)
+        done = False
+        while not done:
+            status, done = downloader.next_chunk()
+        fh.seek(0)
+        return fh
 
 
 # -----------------------------
@@ -96,6 +117,29 @@ class GetPostByLineTool(BaseTool):
     async def _arun(self, sheet_id: str, worksheet_name: str, line_number: int) -> str:
         raise NotImplementedError("Execução assíncrona não implementada.")
     
+
+class GetPostDailyool(BaseTool):
+    name: str = "get_post_by_line"
+    description: str = "Busca dados de uma linha específica em um Google Sheet."
+    args_schema: Type[BaseModel] = GetPostByLineInput
+
+    def _run(self, line_number: int) -> Optional[Tuple[int, Dict[str, Any]]]:
+        client = GoogleDriveClient().client
+        sheet = client.open_by_key(os.getenv("SHEET_ID")).worksheet(os.getenv("WORKSHEET_DAILY"))
+
+        header = sheet.row_values(1)
+        row_values = sheet.row_values(line_number)
+
+        if not row_values:
+            return None
+
+        row_dict = dict(zip(header, row_values))
+        return row_dict
+
+    async def _arun(self, sheet_id: str, worksheet_name: str, line_number: int) -> str:
+        raise NotImplementedError("Execução assíncrona não implementada.")
+    
+    
 # ---------------------------------------
 # Input Pydantic
 # ---------------------------------------
@@ -144,6 +188,50 @@ class GetRandomPostTool(BaseTool):
 
     async def _arun(self) -> str:
         raise NotImplementedError("Execução assíncrona não implementada.")
+    
+
+class MergeImageInput(BaseModel):
+    """Parâmetros para mesclar uma imagem de fundo com logomarca (Google Drive)."""
+    background_id: str = Field(..., description="ID do arquivo de fundo no Google Drive")
+    logo_id: str = Field(..., description="ID da logomarca no Google Drive")
+    output_file: str = Field("merge.png", description="Caminho de saída da imagem mesclada")
+
+class MergeImageTool(BaseTool):
+    name: str = "merge_image"
+    description: str = "Mescla uma imagem de fundo com uma logomarca (ambas do Google Drive)."
+    args_schema: Type[BaseModel] = MergeImageInput
+
+    def _run(self, background_id: str, logo_id: str, output_file: str = "merge.png") -> Optional[str]:
+        client = GoogleDriveClient()
+
+        # Baixa as imagens do Drive
+        bg_bytes = client.download_file(background_id)
+        logo_bytes = client.download_file(logo_id)
+
+        img = Image.open(bg_bytes).convert("RGBA")
+        logo = Image.open(logo_bytes).convert("RGBA")
+
+        # Redimensiona logomarca
+        largura_logo = img.width // 6
+        logo = logo.resize((largura_logo, int(logo.height * largura_logo / logo.width)))
+
+        # Define posição (canto inferior direito)
+        pos_x = img.width - logo.width - 10
+        pos_y = img.height - logo.height - 10
+        posicao = (pos_x, pos_y)
+
+        # Mescla
+        img_com_logo = img.copy()
+        img_com_logo.paste(logo, posicao, logo)
+
+        # Salva
+        img_com_logo.save(output_file)
+        return output_file
+
+    async def _arun(self, *args, **kwargs) -> str:
+        raise NotImplementedError("Execução assíncrona não implementada.")
+    
+
 
 
 
