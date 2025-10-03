@@ -2,8 +2,12 @@
 __pycache__/
 .DS_Store
 credentials.json
+token.json
 config/.env
 config/.env.local
 config/.env.production
 logs/
 *.log
+DOCKER/N8N/POSTS/APP/src/app/config/token.json
+DOCKER/N8N/POSTS/APP/src/app/config/token.json
+DOCKER/N8N/POSTS/APP/src/app/config/token.json
