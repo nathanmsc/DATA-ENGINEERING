@@ -2,12 +2,12 @@ from PIL import Image
 import requests
 from io import BytesIO
 
-def merge_images(id_background):
+def merge_images(url):
     # IDs dos arquivos no Google Drive
     id_logo = '1XziOJF1E-GQBzLVXOQc55iez2ZIa2vWI'
 
     # URLs diretas para download
-    url_background = f'https://drive.google.com/uc?export=download&id={id_background}'
+    url_background = url
     url_logo = f'https://drive.google.com/uc?export=download&id={id_logo}'
 
     # Carrega a imagem principal
@@ -39,4 +39,4 @@ def merge_images(id_background):
 
 
 # Chama a função
-merge_images('13mGkmkWbOmhasQNO5QVr78R5ENGfIBD_')
+#merge_images('13mGkmkWbOmhasQNO5QVr78R5ENGfIBD_')

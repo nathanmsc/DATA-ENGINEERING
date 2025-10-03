@@ -56,8 +56,3 @@ class PromptImageTool(BaseTool):
     async def _arun(self, prompt_image: str, num_outputs: int = 1) -> List[str]:
         raise NotImplementedError("Async not implemented for PromptImageTool.")
 
-
-# 🔧 Exemplo de uso
-tool = PromptImageTool()
-#urls = tool._run(prompt_image="A futuristic cyberpunk city at night", num_outputs=1)
-#print("✅ URL da imagem gerada:", urls.get("stream"))

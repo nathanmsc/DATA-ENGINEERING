@@ -88,7 +88,6 @@ class PublishMediaTool(BaseTool):
 
 
 # Exemplo de uso
-image_url = "https://www.w3schools.com/w3css/img_lights.jpg"  # URL da imagem a ser postada
 caption = '''DI Sorrisos – Transformando sorrisos!
 
             🦷 Agende seu atendimento:
@@ -96,19 +95,4 @@ caption = '''DI Sorrisos – Transformando sorrisos!
             📞 contato: 71 98298-5180
             📲 Siga: @disorrisos'''
 
-
-media = InstagramPostTool()
-
-container = media._run(
-    image_url=image_url,
-    caption=caption
-)
-
-print("Container criado:", container)
-
-publish = PublishMediaTool()
-
-#post_id = publish._run(creation_id=container)
-
-#print("ID da postagem publicada:", post_id)
 

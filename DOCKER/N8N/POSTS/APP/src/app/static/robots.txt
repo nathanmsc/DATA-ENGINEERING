@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /merge_images
+Disallow: /post_weekday
+Disallow: /create_image
+Disallow: /docs
+Disallow: /redoc
+Allow: /static/

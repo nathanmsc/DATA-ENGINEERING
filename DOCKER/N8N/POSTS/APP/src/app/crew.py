@@ -60,7 +60,7 @@ class App():
         return Task(
             config=self.tasks_config['caption_task'], # type: ignore[index]
             output_model=Caption,
-            output_file='caption.txt'
+            output_file='static/document/caption.json'
         )
     
     @task
@@ -68,7 +68,7 @@ class App():
         return Task(
             config=self.tasks_config['writer_task'], # type: ignore[index]
             output_model=Writer,
-            output_file='post.txt'
+            output_file='static/document/post.json'
         )
     
     @task
@@ -76,7 +76,7 @@ class App():
         return Task(
             config=self.tasks_config['imager_task'], # type: ignore[index]
             output_model=Imager,
-            output_file='prompt_image.txt'
+            output_file='static/document/prompt_image.json'
         )
     
     @task
@@ -84,7 +84,7 @@ class App():
         return Task(
             config=self.tasks_config['hashtag_task'], # type: ignore[index]
             output_model=Hashtags,
-            output_file='hashtags.txt'
+            output_file='static/document/hashtags.json'
         )
     
     @task
@@ -92,7 +92,7 @@ class App():
         return Task(
             config=self.tasks_config['consolidator_task'], # type: ignore[index]
             output_model=Consolidator,
-            output_file='result.json'
+            output_file='static/document/result.json'
         )
 
     @crew

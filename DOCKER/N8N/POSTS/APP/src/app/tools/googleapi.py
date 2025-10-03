@@ -1,239 +1,253 @@
 import os
 import random
-import gspread # type: ignore
-from PIL import Image
 from io import BytesIO
-from crewai.tools import BaseTool # type: ignore
-from pydantic import BaseModel, Field # type: ignore
 from functools import cached_property
-from googleapiclient.discovery import build # type: ignore
-from dotenv import load_dotenv, find_dotenv # type: ignore
-from typing import Type, Optional, Tuple, Dict, Any
-from googleapiclient.http import MediaIoBaseDownload # type: ignore
-from google.oauth2.service_account import Credentials # type: ignore
+from typing import Optional, Tuple, Dict, Any, Type
+
+import gspread  # type: ignore
+from pydantic import BaseModel, Field  # type: ignore
+from crewai.tools import BaseTool  # type: ignore
+from googleapiclient.discovery import build  # type: ignore
+from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload  # type: ignore
+from google.oauth2.service_account import Credentials  # type: ignore
+from dotenv import load_dotenv  # type: ignore
+
+# Carrega variáveis do .env
+load_dotenv()
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+print("BASE_DIR:", BASE_DIR)
 
 
+# =====================================================
+# Google Drive / Sheets Client
+# =====================================================
 class GoogleDriveClient:
-    """Cliente interno para autenticação e acesso ao Google Sheets via gspread."""
+    """Cliente unificado para autenticação e operações com Google Drive e Google Sheets."""
 
     @cached_property
-    def scopes(self):
+    def scopes(self) -> list[str]:
         scopes_env = os.getenv("GOOGLE_SCOPES")
         if not scopes_env:
             raise ValueError("⚠️ Variável de ambiente GOOGLE_SCOPES não encontrada no .env")
-        return scopes_env.split(",")
+        return [scope.strip() for scope in scopes_env.split(",")]
 
     @cached_property
-    def credentials(self):
+    def credentials(self) -> Credentials:
         credentials_file = os.getenv("GOOGLE_CREDENTIALS_FILE")
-        if not credentials_file:
-            raise ValueError("⚠️ Variável de ambiente GOOGLE_CREDENTIALS_FILE não definida.")
+        if not os.path.exists(credentials_file):
+            raise FileNotFoundError(
+                f"⚠️ Arquivo de credenciais não encontrado em: {credentials_file}"
+            )
         return Credentials.from_service_account_file(credentials_file, scopes=self.scopes)
 
     @cached_property
-    def client(self):
+    def sheets_client(self):
+        """Cliente para Google Sheets via gspread"""
         return gspread.authorize(self.credentials)
-    
+
     @cached_property
     def drive_service(self):
+        """Cliente para Google Drive API"""
         return build("drive", "v3", credentials=self.credentials)
 
-
+    # ------------------- DRIVE METHODS -------------------
     def download_file(self, file_id: str) -> BytesIO:
-        """Baixa um arquivo do Google Drive e retorna como BytesIO"""
+        """Baixa um arquivo do Google Drive e retorna como BytesIO."""
         request = self.drive_service.files().get_media(fileId=file_id)
         fh = BytesIO()
         downloader = MediaIoBaseDownload(fh, request)
         done = False
         while not done:
-            status, done = downloader.next_chunk()
+            _, done = downloader.next_chunk()
         fh.seek(0)
         return fh
 
+    def make_file_public(self, file_id: str) -> str:
+        """Define permissão pública e retorna URL direta de download."""
+        permission = {"role": "reader", "type": "anyone"}
+        self.drive_service.permissions().create(fileId=file_id, body=permission).execute()
+        return f"https://drive.google.com/uc?export=download&id={file_id}"
 
-# -----------------------------
-# Pydantic Schema de Input
-# -----------------------------
+    def upload_file_to_drive(
+        self, file_path: str, file_name: str, folder_id: Optional[str] = None
+    ) -> str:
+        """Faz upload de um arquivo local para o Google Drive e retorna o file_id."""
+        file_metadata = {"name": file_name}
+        if folder_id:
+            file_metadata["parents"] = [folder_id]
+
+        # Determina mimetype
+        mimetype = "application/octet-stream"
+        if file_path.endswith(".png"):
+            mimetype = "image/png"
+        elif file_path.endswith((".jpg", ".jpeg")):
+            mimetype = "image/jpeg"
+
+        media = MediaFileUpload(file_path, mimetype=mimetype, resumable=True)
+
+        file = (
+            self.drive_service.files()
+            .create(body=file_metadata, media_body=media, fields="id")
+            .execute()
+        )
+        return file.get("id")
+
+
+# =====================================================
+# Pydantic Schemas
+# =====================================================
 class GetNextPostInput(BaseModel):
-    """Parâmetros para buscar o próximo post no Google Sheets."""
     sheet_id: str = Field(..., description="ID do Google Sheet")
-    worksheet_name: str = Field(..., description="Nome da aba (worksheet) dentro do Google Sheet")
+    worksheet_name: str = Field(..., description="Nome da aba (worksheet)")
 
 
-# -----------------------------
-# Tool Customizada
-# -----------------------------
+class GetPostByLineInput(BaseModel):
+    sheet_id: str
+    worksheet_name: str
+    line_number: int = Field(..., ge=2, description="Número da linha (>=2, pois 1 é cabeçalho)")
+
+
+class GetRandomPostInput(BaseModel):
+    sheet_id: str
+    worksheet_name: str
+
+
+class GetPostByLineInput(BaseModel):
+    """Parâmetros necessários para buscar uma linha no Google Sheet."""
+
+    sheet_id: str = Field(..., description="ID da planilha do Google Sheets.")
+    worksheet_name: str = Field(..., description="Nome da aba dentro da planilha.")
+    line_number: int = Field(..., ge=2, description="Número da linha a ser buscada (mínimo 2, pois a linha 1 é cabeçalho).")    
+
+
+class DownloadFileInput(BaseModel):
+    file_id: str
+    output_file: str
+
+
+class UploadFileInput(BaseModel):
+    file_path: str
+    file_name: str
+    folder_id: Optional[str] = None
+
+
+class MakeFilePublicInput(BaseModel):
+    file_id: str
+
+
+# =====================================================
+# Tools
+# =====================================================
 class GetNextPostTool(BaseTool):
     name: str = "get_next_post"
-    description: str = (
-        "Busca a próxima linha de postagens em um Google Sheet (pula cabeçalho). "
-        "Útil para gerenciar conteúdo social em planilhas."
-    )
-    args_schema: Type[BaseModel] = BaseModel  # sem inputs externos
+    description: str = "Busca a próxima linha de postagens em um Google Sheet (ignora cabeçalho)."
+    args_schema: Type[BaseModel] = BaseModel  # não recebe input externo
 
     def _run(self) -> Optional[Tuple[int, Dict[str, Any]]]:
         sheet_id = os.getenv("SHEET_ID")
         worksheet_name = os.getenv("WORKSHEET")
-
-        client = GoogleDriveClient().client
+        client = GoogleDriveClient().sheets_client
         sheet = client.open_by_key(sheet_id).worksheet(worksheet_name)
         data = sheet.get_all_records()
-        for idx, row in enumerate(data, start=2):  # start=2 para ignorar cabeçalho
+        for idx, row in enumerate(data, start=2):
             return idx, row
         return None
-
-    async def _arun(self) -> str:
-        raise NotImplementedError("Execução assíncrona não implementada.")
-
-
-# -----------------------------
-# Outro exemplo: buscar por linha
-# -----------------------------
-class GetPostByLineInput(BaseModel):
-    """Parâmetros para buscar uma linha específica do Google Sheet."""
-    sheet_id: str = Field(..., description="ID do Google Sheet")
-    worksheet_name: str = Field(..., description="Nome da aba (worksheet)")
-    line_number: int = Field(..., description="Número da linha desejada (>=2, pois 1 é cabeçalho)")
 
 
 class GetPostByLineTool(BaseTool):
     name: str = "get_post_by_line"
-    description: str = "Busca dados de uma linha específica em um Google Sheet."
+    description: str = "Busca dados de uma linha específica no Google Sheet."
     args_schema: Type[BaseModel] = GetPostByLineInput
 
-    def _run(self, line_number: int) -> Optional[Tuple[int, Dict[str, Any]]]:
-        client = GoogleDriveClient().client
-        sheet = client.open_by_key(os.getenv("SHEET_ID")).worksheet(os.getenv("WORKSHEET"))
-
+    def _run(self, sheet_id: str, worksheet_name: str, line_number: int):
+        client = GoogleDriveClient().sheets_client
+        sheet = client.open_by_key(sheet_id).worksheet(worksheet_name)
         header = sheet.row_values(1)
         row_values = sheet.row_values(line_number)
-
         if not row_values:
             return None
+        return line_number, dict(zip(header, row_values))
 
-        row_dict = dict(zip(header, row_values))
-        return line_number, row_dict
-
-    async def _arun(self, sheet_id: str, worksheet_name: str, line_number: int) -> str:
-        raise NotImplementedError("Execução assíncrona não implementada.")
-    
-
-class GetPostDailyool(BaseTool):
-    name: str = "get_post_by_line"
-    description: str = "Busca dados de uma linha específica em um Google Sheet."
-    args_schema: Type[BaseModel] = GetPostByLineInput
-
-    def _run(self, line_number: int) -> Optional[Tuple[int, Dict[str, Any]]]:
-        client = GoogleDriveClient().client
-        sheet = client.open_by_key(os.getenv("SHEET_ID")).worksheet(os.getenv("WORKSHEET_DAILY"))
-
-        header = sheet.row_values(1)
-        row_values = sheet.row_values(line_number)
-
-        if not row_values:
-            return None
-
-        row_dict = dict(zip(header, row_values))
-        return row_dict
-
-    async def _arun(self, sheet_id: str, worksheet_name: str, line_number: int) -> str:
-        raise NotImplementedError("Execução assíncrona não implementada.")
-    
-    
-# ---------------------------------------
-# Input Pydantic
-# ---------------------------------------
-class GetRandomPostInput(BaseModel):
-    """Parâmetros para buscar uma linha aleatória do Google Sheet."""
-    sheet_id: str = Field(..., description="ID do Google Sheet")
-    worksheet_name: str = Field(..., description="Nome da aba (worksheet) dentro do Google Sheet")
-
-# ---------------------------------------
-# Tool
-# ---------------------------------------
 
 class GetRandomPostTool(BaseTool):
     name: str = "get_random_post"
-    description: str = (
-        "Conta o total de linhas de dados em um Google Sheet (ignora cabeçalho) "
-        "e retorna uma linha aleatória com seu conteúdo."
-    )
-    args_schema: Type[BaseModel] = BaseModel  # sem inputs externos
+    description: str = "Retorna uma linha aleatória de um Google Sheet."
+    args_schema: Type[BaseModel] = BaseModel
 
     def _run(self) -> Optional[Tuple[int, Dict[str, Any]]]:
         sheet_id = os.getenv("SHEET_ID")
         worksheet_name = os.getenv("WORKSHEET")
-
-        # Conecta ao Google Sheets
-        client = GoogleDriveClient().client
+        client = GoogleDriveClient().sheets_client
         sheet = client.open_by_key(sheet_id).worksheet(worksheet_name)
 
-        # Conta todas as linhas que contêm dados
         all_values = sheet.get_all_values()
         total_rows = len(all_values)
-
         if total_rows <= 1:
             return None
 
-        # Escolhe aleatoriamente uma linha a partir da 2
         random_line = random.randint(2, total_rows)
         header = all_values[0]
         row_values = all_values[random_line - 1]
-
         if not row_values:
             return None
-
-        row_dict = dict(zip(header, row_values))
-        return random_line, row_dict
-
-    async def _arun(self) -> str:
-        raise NotImplementedError("Execução assíncrona não implementada.")
+        return random_line, dict(zip(header, row_values))
     
 
-class MergeImageInput(BaseModel):
-    """Parâmetros para mesclar uma imagem de fundo com logomarca (Google Drive)."""
-    background_id: str = Field(..., description="ID do arquivo de fundo no Google Drive")
-    logo_id: str = Field(..., description="ID da logomarca no Google Drive")
-    output_file: str = Field("merge.png", description="Caminho de saída da imagem mesclada")
+class GetPostDailyTool(BaseTool):
+    name: str = "get_post_daily"
+    description: str = "Busca dados de uma linha específica na aba diária do Google Sheet."
+    args_schema: Type[BaseModel] = GetPostByLineInput
 
-class MergeImageTool(BaseTool):
-    name: str = "merge_image"
-    description: str = "Mescla uma imagem de fundo com uma logomarca (ambas do Google Drive)."
-    args_schema: Type[BaseModel] = MergeImageInput
+    def _run(
+        self, sheet_id: str, line_number: int
+    ) -> Optional[Dict[str, Any]]:
+        """Retorna os dados de uma linha específica na worksheet diária."""
+        client = GoogleDriveClient().sheets_client
+        sheet = client.open_by_key(sheet_id).worksheet(os.getenv("WORKSHEET_DAILY"))
 
-    def _run(self, background_id: str, logo_id: str, output_file: str = "merge.png") -> Optional[str]:
+        header = sheet.row_values(1)
+        row_values = sheet.row_values(line_number)
+        if not row_values:
+            return None
+        return dict(zip(header, row_values))
+
+    async def _arun(
+        self, sheet_id: str, worksheet_name: str, line_number: int
+    ) -> str:
+        raise NotImplementedError("Execução assíncrona não implementada.")
+
+
+
+class DownloadFileTool(BaseTool):
+    name: str = "download_file"
+    description: str = "Baixa um arquivo do Google Drive e salva localmente."
+    args_schema: Type[BaseModel] = DownloadFileInput
+
+    def _run(self, file_id: str, output_file: str) -> str:
         client = GoogleDriveClient()
-
-        # Baixa as imagens do Drive
-        bg_bytes = client.download_file(background_id)
-        logo_bytes = client.download_file(logo_id)
-
-        img = Image.open(bg_bytes).convert("RGBA")
-        logo = Image.open(logo_bytes).convert("RGBA")
-
-        # Redimensiona logomarca
-        largura_logo = img.width // 6
-        logo = logo.resize((largura_logo, int(logo.height * largura_logo / logo.width)))
-
-        # Define posição (canto inferior direito)
-        pos_x = img.width - logo.width - 10
-        pos_y = img.height - logo.height - 10
-        posicao = (pos_x, pos_y)
-
-        # Mescla
-        img_com_logo = img.copy()
-        img_com_logo.paste(logo, posicao, logo)
-
-        # Salva
-        img_com_logo.save(output_file)
+        file_bytes = client.download_file(file_id)
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        with open(output_file, "wb") as f:
+            f.write(file_bytes.getbuffer())
         return output_file
 
-    async def _arun(self, *args, **kwargs) -> str:
-        raise NotImplementedError("Execução assíncrona não implementada.")
-    
+
+class UploadFileTool(BaseTool):
+    name: str = "upload_file_to_drive"
+    description: str = "Faz upload de um arquivo local para o Google Drive e retorna o file_id."
+    args_schema: Type[BaseModel] = UploadFileInput
+
+    def _run(self, file_path: str, file_name: str, folder_id: Optional[str] = None) -> str:
+        client = GoogleDriveClient()
+        return client.upload_file_to_drive(file_path, file_name, folder_id)
 
 
+class MakeFilePublicTool(BaseTool):
+    name: str = "make_file_public"
+    description: str = "Torna um arquivo do Google Drive público e retorna a URL de download."
+    args_schema: Type[BaseModel] = MakeFilePublicInput
 
-
-
-
+    def _run(self, file_id: str) -> str:
+        client = GoogleDriveClient()
+        return client.make_file_public(file_id)
