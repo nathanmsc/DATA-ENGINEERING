@@ -8,5 +8,5 @@ docker run -p 389:389 -p 636:636 --name openldap-server --hostname openldap-serv
 
 OPEN LDAP INTERFACE
 ```sh
-sudo docker run -p 6443:443 --name phpldapadmin --hostname phpldapadmin --link openldap:rescue --env PHPLDAPADMIN_LDAP_HOSTS=rescue --detach osixia/openldap:latest
+docker run -p 6443:443 --name phpldapadmin --hostname phpldapadmin --link openldap-server:mindsetcloud --env PHPLDAPADMIN_LDAP_HOSTS=mindsetcloud --detach  osixia/phpldapadmin:latest
 ```
