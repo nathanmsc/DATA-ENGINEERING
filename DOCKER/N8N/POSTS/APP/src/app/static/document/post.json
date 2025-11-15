@@ -1,3 +1,3 @@
 {
-  "post_content": "O sorriso contagiante é o segredo para uma saúde oral feliz."
+  "post_content": "{\"strategy_brief\": \"Foco na saúde dos dentes\", \"content_guidelines\": {\t\"prevention\": true,\t\"holistic\": true\"}, \"visual_concept\": \"Ilustração de um dia em que alguém usa escovação do jeito certo, com fio dental e calendário de consultas periódicas.\", \"topic\": \"Prevenção\", \"description\": \"Mensagem curta para promover a saúde dos dentes, destacando a importância da escovação diária e das visitas regulares ao dentista.", \"prompt_image\": {\t\"image_type\": \"illustration\",\t\"text\": \"Escovação do jeito certo, com fio dental e calendário de consultas periódicas\"\", \"voice\": \"família\", \"audience\": \"famílias\", \"platform\": \"Instagram\"\}}"
 }

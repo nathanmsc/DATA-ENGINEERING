@@ -15,8 +15,7 @@ from dotenv import load_dotenv  # type: ignore
 # Carrega variáveis do .env
 load_dotenv()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-print("BASE_DIR:", BASE_DIR)
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 
 # =====================================================
@@ -34,12 +33,22 @@ class GoogleDriveClient:
 
     @cached_property
     def credentials(self) -> Credentials:
+        print("BASE_DIR:", BASE_DIR)
+
         credentials_file = os.getenv("GOOGLE_CREDENTIALS_FILE")
-        if not os.path.exists(credentials_file):
+
+
+        # Caminho absoluto baseado no diretório /src/app/tools
+        credentials_path = os.path.join(BASE_DIR, credentials_file)
+        credentials_path = os.path.abspath(credentials_path)
+        print("BASE_DIR:", credentials_path)
+
+        if not os.path.exists(credentials_path):
             raise FileNotFoundError(
-                f"⚠️ Arquivo de credenciais não encontrado em: {credentials_file}"
+                f"⚠️ Arquivo de credenciais não encontrado em: {credentials_path}"
             )
-        return Credentials.from_service_account_file(credentials_file, scopes=self.scopes)
+
+        return Credentials.from_service_account_file(credentials_path, scopes=self.scopes)
 
     @cached_property
     def sheets_client(self):
