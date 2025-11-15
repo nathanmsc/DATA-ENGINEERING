@@ -56,4 +56,4 @@ Let's create wonders together with the power and simplicity of crewAI.
 ### Run
 docker start ollama-server
 docker exec -it ollama-server llama3.2:1b
-uv main:app --reload
+uvicorn main:app --reload

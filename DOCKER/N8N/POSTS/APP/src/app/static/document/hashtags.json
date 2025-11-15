@@ -1,3 +1,12 @@
 {
-  "hashtags": "#saúdeodental #escovaçãocerta #visitsuperiores #dentesbemcuidados #fio dental #prevenconesetos"
-}
+  "hashtags": "#saudeodentes #bemestar #equilibrado #cuidadosodentales #odontologia #saúdeoralpaz",
+  "strategy_brief": "uma imagem que faça com que os usuários vejam e se sintam orgulhosos de ter dentes saudáveis.",
+  "content_guidelines": {
+    "visual_concept": "um sorriso abre portas, criando uma conexão emocional com o público",
+    "topic": "saúde dos dentes e bem estar do paciente",
+    "description": "uma imagem moderna e atraente de um equipamento odontológico em uso, transmitindo confiança na inovação e qualidade do tratamento.",
+    "prompt_image": "foto_moderna_do_equipamento_odontologico_em_uso, symbolizando_inovacao_e_qualidade_dental_care",
+    "voice": "tom_de_voz_ou_estilo_de_escrita_com_humor_e_personalidade"
+  },
+  "audience": "público_alvo_de_mais_jovens_populacao",
+  "platform": "instagram"

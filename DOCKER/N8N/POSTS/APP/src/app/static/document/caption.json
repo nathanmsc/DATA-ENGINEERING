@@ -1,21 +1,14 @@
 ```
 {
-  "strategy_brief": "Foco na saúde dos dentes",
+  "strategy_brief": "uma imagem que faça com que os usuários vejam e se sintam orgulhosos de ter dentes saudáveis.",
   "content_guidelines": {
-    "prevention": true,
-    "holistic": true
+    "visual_concept": "um sorriso abre portas, criando uma conexão emocional com o público",
+    "topic": "saúde dos dentes e bem estar do paciente",
+    "description": "uma imagem moderna e atraente de um equipamento odontológico em uso, transmitindo confiança na inovação e qualidade do tratamento.",
+    "prompt_image": "foto_moderna_do_equipamento_odontologico_em_uso, symbolizando_inovacao_e_qualidade_dental_care",
+    "voice": "tom_de_voz_ou_estilo_de_escrita_com_humor_e_personalidade"
   },
-  "visual_concept": "Ilustração de um dia em que alguém usa escovação do jeito certo, com fio dental e calendário de consultas periódicas.",
-  "topic": "Prevenção",
-  "description": "Mensagem curta para promover a saúde dos dentes, destacando a importância da escovação diária e das visitas regulares ao dentista.",
-  "prompt_image": {
-    "image_type": "illustration",
-    "text": "Escovação do jeito certo, com fio dental e calendário de consultas periódicas"
-  },
-  "voice": "família",
-  "audience": "famílias",
-  "platform": "Instagram"
+  "audience": "público_alvo_de_mais_jovens_populacao",
+  "platform": "instagram"
 }
 ```
-
-I now know the final answer
