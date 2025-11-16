@@ -13,7 +13,7 @@ class PromptImageClient:
     """Cliente para interação com a API HuggingFace Replicate."""
 
     def __init__(self, token: str = None, endpoint: str = None):
-        self.token = token or os.getenv("TL_TOKEN")
+        self.token = token or os.getenv("DI_TOKEN")
         self.endpoint = endpoint or os.getenv("REPLICATE_ENDPOINT")
         if not self.token or not self.endpoint:
             raise ValueError("Token ou endpoint não configurados")

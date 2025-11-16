@@ -5,6 +5,7 @@ description = "APP using crewAI"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 requires-python = ">=3.10,<3.14"
 dependencies = [
+    "boto3>=1.40.74",
     "crewai[tools]>=0.193.2,<1.0.0",
     "fastapi>=0.117.1",
     "google-api-python-client>=2.183.0",
