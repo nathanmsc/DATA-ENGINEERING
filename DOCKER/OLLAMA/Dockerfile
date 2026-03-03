@@ -1,7 +1,9 @@
 FROM ubuntu:latest
 
 RUN apt-get update && \
-    apt-get install sudo curl systemd build-essential -y
+    apt-get install -y sudo curl systemd build-essential zstd && \
+    rm -rf /var/lib/apt/lists/*
+    
 RUN curl -fsSL https://ollama.com/install.sh | sh
 
 COPY password /tmp/password
