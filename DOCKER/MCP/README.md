@@ -1,83 +1,139 @@
-### ENABLE COMUNITY NODES
-```yaml
-N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
-```
-### ADD COMUNITY NODE MCP CLIENT
-n8n-nodes-mcp-client
+# CLAUDE.md
 
-### ADD MCP TOOLS
-```npx
-npm install -g @modelcontextprotocol/server-brave-search
-```
----
-### LOCAL MCP SERVER WITH PYTHON
-```sh
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && apt install -y nodejs
-curl -LsSf https://astral.sh/uv/install.sh | sh
-source $HOME/.local/bin/env
-uv init mcp
-cd mcp
-uv add mcp "mcp[cli]"
-source .venv/bin/activate
-```
-### INSTALL REQUIREMENTS
-```sh
-uv pip install -r requirements.txt
-```
----
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-### SIMPLE MCP SERVER WITH PYTHON
-```py
-from mcp.server.fastmcp import FastMCP  # Certifique-se de que esse caminho é válido
+## Project Overview
 
-mcp = FastMCP(
-    name='MCPServer',
-    host='container-ip',
-    port=3001,
-    sse_path='/sse/',
-)
+This is an MCP (Model Context Protocol) server built with Python using the `mcp` SDK's FastMCP class. It exposes tools, resources, and prompts via streamable HTTP transport.
 
-@mcp.tool()
-def list_task(max_results: int) -> list[str]:  # Use List[str] se Python <3.9
-    """List all tasks"""
-    return [
-        'Eat breakfast',
-        'Go to the gym',
-        'Read a book',
-    ][:max_results]
+## Development Commands
 
-if __name__ == '__main__':
-    mcp.run(transport='sse')
-
-```
-
-### RUN LOCAL MCP
-```sh
-source .venv/bin/activate
+**Run the server locally:**
+```bash
 uv run server.py
 ```
 
-```sh
-source .venv/bin/activate
-python server.py
+**Build and run with Docker:**
+```bash
+docker build -t mcp-server .
+docker run -d --name mcp-server -p 3001:3001 mcp-server
 ```
-### RUN MCP INSPECTOR
-```sh
-mcp dev server.py
-```
-### DOCKER RUN
-```sh
- docker run -it --name mcp-server --hostname mcp-server --restart always --net network --ip 172.19.0.35 -p 3001:3001 -p 6274:6274 -p 6277:6277 -d container-image
-```
----
-### REFERÊNCIAS
 
-|Descrição| Link  |
-|:----------------:|:-----------------------------------------------------:|
-|n8n-mcp-server    |[n8n-mcp-server](https://huggingface.co/blog/lynn-mikami/n8n-mcp-server)|
-|n8n-nodes-mcp|[n8n-nodes-mcp](https://github.com/nerding-io/n8n-nodes-mcp)|
-|serpAPI|[serpAPI](https://www.youtube.com/watch?v=pT32eqHaWj4)|
-||https://www.youtube.com/watch?v=ZqlpCliftQg|
-||https://www.youtube.com/watch?v=ZqlpCliftQg|
-|MCP Local|https://www.youtube.com/watch?v=03P9Y99bhLo|
-|Local llm with MCP|https://www.youtube.com/watch?v=aiH79Q-LGjY|
+**Access the running server:**
+- Server endpoint: `http://localhost:3001`
+- Server logs: `docker logs mcp-server`
+
+**Teste the server (curl):**
+```sh
+curl -i http://localhost:3001/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"jsonrpc": "2.0", "method": "initialize", "id": 1, "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "test", "version": "1.0"}}}'
+```
+
+
+
+**Test the server (Python):**
+```python
+import requests
+
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+
+# Initialize session
+init = requests.post('http://localhost:3001/mcp', headers=headers, json={
+    'jsonrpc': '2.0', 'method': 'initialize', 'id': 1,
+    'params': {'protocolVersion': '2024-11-05', 'capabilities': {},
+               'clientInfo': {'name': 'test', 'version': '1.0'}}
+})
+session_id = init.headers['Mcp-Session-Id']
+
+# List tools
+headers['Mcp-Session-Id'] = session_id
+tools = requests.post('http://localhost:3001/mcp', headers=headers, json={
+    'jsonrpc': '2.0', 'method': 'tools/list', 'id': 2
+})
+print(tools.json())
+
+# Call a tool
+result = requests.post('http://localhost:3001/mcp', headers=headers, json={
+    'jsonrpc': '2.0', 'method': 'tools/call', 'id': 3,
+    'params': {'name': 'add', 'arguments': {'a': 5, 'b': 3}}
+})
+print(result.json())  # Output: 8
+```
+
+**Install dependencies:**
+```bash
+uv sync
+```
+
+**Add a new dependency:**
+```bash
+uv add <package-name>
+```
+
+## Architecture
+
+### Server Configuration
+
+The server uses environment variables for configuration (set in `dockerfile`):
+- `MCP_HOST`: Bind address (default: `0.0.0.0`)
+- `MCP_PORT`: Server port (default: `3001`)
+
+The server runs with `streamable-http` transport, exposing:
+- **Tools**: Functions that can be called by MCP clients (e.g., `add`)
+- **Resources**: URI-addressable data (e.g., `greeting://{name}`)
+- **Prompts**: Template-based prompts (e.g., `greet_user`)
+
+### File Structure
+
+- `server.py`: Main MCP server with FastMCP setup
+- `tools/`: Additional tool modules (e.g., `wikipedia.py`)
+- `pyproject.toml`: Python project dependencies
+- `dockerfile`: Container configuration with `mcp` user
+- `entrypoint.sh`: Container startup script
+
+### Transport
+
+The server uses `streamable-http` transport which:
+- Runs an HTTP server (powered by uvicorn) on `MCP_HOST:MCP_PORT` (default: `0.0.0.0:3001`)
+- Supports JSON responses (configured with `json_response=True`)
+- Is stateful by default (sessions maintained in memory)
+
+**Note:** MCP Inspector is not used because it only supports `stdio` transport, not `streamable-http`.
+
+**Important:** When running in Docker, `MCP_HOST` must be `0.0.0.0` to accept connections from outside the container.
+
+### Docker Setup
+
+The container creates an `mcp` user and:
+- Installs `uv` for Python package management
+- Sets up a virtual environment at `/home/mcp/server/.venv`
+- Runs the server as the `mcp` user (not root)
+- Exposes the configured MCP port
+
+## Adding New Components
+
+**Add a tool:**
+```python
+@mcp.tool()
+def my_tool(param: str) -> str:
+    """Tool description"""
+    return f"Result: {param}"
+```
+
+**Add a resource:**
+```python
+@mcp.resource("myresource://{id}")
+def get_resource(id: str) -> str:
+    """Resource description"""
+    return f"Data for {id}"
+```
+
+**Add a prompt:**
+```python
+@mcp.prompt()
+def my_prompt(name: str) -> str:
+    """Prompt description"""
+    return f"Generate something for {name}"
+```
