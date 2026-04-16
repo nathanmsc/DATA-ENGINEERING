@@ -1,5 +1,6 @@
 FROM ubuntu:latest
 
+
 RUN apt update && \
     apt install -y sudo curl systemd build-essential perl && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && \
@@ -37,12 +38,12 @@ RUN chmod +x /home/mcp/server/entrypoint.sh
 RUN echo 'source /home/mcp/server/.venv/bin/activate' >> /home/mcp/.bashrc
 USER mcp
 
-ENV MCP_HOST='localhost'
-ENV MCP_PORT=6274
-ENV MCP_API_PORT=6277
-ENV MCP_API_URL='http://172.19.0.35:6277'
+# MCP Server configuration - use 0.0.0.0 to accept external connections (required for Docker port forwarding)
+ENV MCP_HOST=0.0.0.0
+ENV MCP_PORT=3001
 
-EXPOSE 6274 6277 3001
+# Expose only the MCP server port (inspector removed - not compatible with streamable-http)
+EXPOSE 3001
 
 ENTRYPOINT [ "/home/mcp/server/entrypoint.sh" ]
 # Default command
